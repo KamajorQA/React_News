@@ -1,0 +1,17 @@
+.growWrap {
+  flex-grow: 1;
+  background-color: #141414;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.gridWrapper {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: 1fr 1.5fr 1fr 0.5fr 1fr;
+  gap: 1rem;
+  padding: 2rem;
+  /* border-radius: 10px; */
+  /* height: 100%; */
+  /* background-color: blueviolet; */
+}
