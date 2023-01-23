@@ -1,6 +1,6 @@
 .growWrap {
   flex-grow: 1;
-  background-color: #141414;
+  background-color: var(--bg-overlay-color);
   border-radius: 10px;
   margin-bottom: 1rem;
 }

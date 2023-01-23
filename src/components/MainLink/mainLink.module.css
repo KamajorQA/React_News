@@ -1,0 +1,5 @@
+.mainLink {
+  width: max-content;
+  text-decoration: none;
+  color: var(--primary-color);
+}

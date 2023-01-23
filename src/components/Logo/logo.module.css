@@ -1,0 +1,19 @@
+.logoWrap {
+  max-height: 2rem;
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+}
+
+.logoPic {
+  max-width: 2rem;
+  max-height: 100%;
+}
+
+.logoWrap::before {
+  content: 'React';
+}
+
+.logoWrap::after {
+  content: 'News';
+}
