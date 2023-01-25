@@ -1,7 +1,21 @@
 import s from './article.module.css';
 
-function Article(props) {
-  return <article className={s.card}>main content article</article>;
+function Article({ imgSrc, alt }) {
+  return (
+    <article className={s.card}>
+      <div class={s.cardTop}>
+        <img src={imgSrc} alt={alt} />
+      </div>
+      <div class={s.cardBottom}>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi vero
+          facilis magni saepe minus nemo ullam, laudantium ut nesciunt
+          voluptatibus. Quam laborum non voluptate tenetur maxime neque quasi
+          magnam aliquam?
+        </p>
+      </div>
+    </article>
+  );
 }
 
 export default Article;
