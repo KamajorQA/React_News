@@ -1,0 +1,13 @@
+.exchangeRates {
+  color: #f75404;
+  font-weight: 700;
+  min-width: 25%;
+  display: flex;
+  gap: 1rem;
+}
+
+.currencySign {
+  /* color: #ffb780; */
+  color: #ff9a57;
+  margin-right: 0.3rem;
+}

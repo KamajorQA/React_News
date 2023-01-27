@@ -3,10 +3,10 @@ import s from './article.module.css';
 function Article({ imgSrc, alt }) {
   return (
     <article className={s.card}>
-      <div class={s.cardTop}>
+      <div className={s.cardTop}>
         <img src={imgSrc} alt={alt} />
       </div>
-      <div class={s.cardBottom}>
+      <div className={s.cardBottom}>
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi vero
           facilis magni saepe minus nemo ullam, laudantium ut nesciunt
