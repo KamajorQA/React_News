@@ -5,8 +5,8 @@ function InfoPanel() {
   return (
     <section className={s['info-panel']}>
       <ExchangeRates />
-      <div>Добавить новость</div>
-      <div style={{ minWidth: '25%' }}>mode switch</div>
+      <article>Добавить новость</article>
+      <article style={{ minWidth: '25%' }}>mode switch</article>
     </section>
   );
 }

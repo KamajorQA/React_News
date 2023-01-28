@@ -1,6 +1,5 @@
 .container {
   flex-grow: 1;
-  text-transform: uppercase;
   width: 100%;
   max-width: 1335px;
   margin: 0 auto;

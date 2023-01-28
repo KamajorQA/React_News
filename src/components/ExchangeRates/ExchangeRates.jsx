@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
 import { getExchangeRates } from '../../utilities/api';
+import Loader from '../Loader/Loader.jsx';
 import s from './exchangeRates.module.css';
 
 function ExchangeRates() {
   const [exchangeRates, setExchangeRates] = useState();
+  const [errorMsg, setErrorMsg] = useState('');
+  const [isLoading, setIsLoading] = useState('true');
 
   // вариант с объявлением и вызовом функции в самом компоненте
   //   useEffect(() => {
@@ -17,15 +20,22 @@ function ExchangeRates() {
   //   }, []);
 
   useEffect(() => {
-    getExchangeRates(setExchangeRates);
+    getExchangeRates(setExchangeRates, setErrorMsg, setIsLoading);
   }, []);
 
   console.log(exchangeRates);
+  console.log(isLoading);
+
+  if (errorMsg) {
+    return <p>{errorMsg}</p>;
+  }
 
   return (
     <>
-      {exchangeRates && (
-        <div className={s.exchangeRates}>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <article className={s.exchangeRates}>
           <div className={s['exhangeRates-usd']}>
             <span className={s.currencySign}>&#36;</span>
             <span id="usd">{exchangeRates.Valute.USD.Value.toFixed(2)}</span>
@@ -34,7 +44,7 @@ function ExchangeRates() {
             <span className={s.currencySign}>&#8364;</span>
             <span id="eur">{exchangeRates.Valute.EUR.Value.toFixed(2)}</span>
           </div>
-        </div>
+        </article>
       )}
     </>
   );
