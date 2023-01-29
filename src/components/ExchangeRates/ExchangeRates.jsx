@@ -23,8 +23,8 @@ function ExchangeRates() {
     getExchangeRates(setExchangeRates, setErrorMsg, setIsLoading);
   }, []);
 
-  console.log(exchangeRates);
-  console.log(isLoading);
+  console.log('ExchangeRates', exchangeRates);
+  console.log('ExchangeRates', isLoading);
 
   if (errorMsg) {
     return <p>{errorMsg}</p>;
