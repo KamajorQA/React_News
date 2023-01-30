@@ -44,6 +44,8 @@
   grid-column: auto / span 12;
   background-color: #2b1811;
   color: #f75404;
+  justify-content: center;
+  align-items: center;
 }
 
 .card:nth-child(12n + 4)::after

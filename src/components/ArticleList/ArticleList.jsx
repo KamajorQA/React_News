@@ -41,46 +41,55 @@ function ArticleList() {
 
             <Article
               image={tigerImg}
+              title={'Exciting title'}
               author={{ name: 'mock author' }}
               tags={['mock tag']}
             />
             <Article
               image={islandImg}
+              title={'Exciting title'}
               author={{ name: 'mock author' }}
               tags={['mock tag']}
             />
             <Article
               image={cloudsImg}
+              title={'Exciting title'}
               author={{ name: 'mock author' }}
               tags={['mock tag']}
             />
             <Article
               image={tigerImg}
+              title={'Exciting title'}
               author={{ name: 'mock author' }}
               tags={['mock tag']}
             />
             <Article
               image={islandImg}
+              title={'Exciting title'}
               author={{ name: 'mock author' }}
               tags={['mock tag']}
             />
             <Article
               image={cloudsImg}
+              title={'Exciting title'}
               author={{ name: 'mock author' }}
               tags={['mock tag']}
             />
             <Article
               image={tigerImg}
+              title={'Exciting title'}
               author={{ name: 'mock author' }}
               tags={['mock tag']}
             />
             <Article
               image={islandImg}
+              title={'Exciting title'}
               author={{ name: 'mock author' }}
               tags={['mock tag']}
             />
             <Article
               image={cloudsImg}
+              title={'Exciting title'}
               author={{ name: 'mock author' }}
               tags={['mock tag']}
             />

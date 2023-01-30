@@ -1,15 +1,6 @@
 import s from './article.module.css';
 
-function Article({
-  imgSrc,
-  image,
-  tags,
-  title,
-  author,
-  created_at,
-  text,
-  _id,
-}) {
+function Article({ image, tags, title, author, created_at, text, _id }) {
   return (
     <article className={s.card}>
       <div className={s.cardTop}>

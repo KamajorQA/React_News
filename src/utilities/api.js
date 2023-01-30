@@ -60,7 +60,10 @@ const getUserInfo = async (setState, setError, setLoader) => {
   }
 };
 
-// изменение информации о текущем пользователе
+// изменение информации о текущем пользователе (изменить можно только имя и описание)
+// в передаваемом объекте userData допускаются только 2 поля: name и about
+// структура успешного ответа сервера совпадает с ответом на запрос данных текущего пользователя
+// следовательно можно использовать одно и то же состояние
 const changeUserInfo = async (userData, setState, setError) => {
   try {
     const response = await fetch(`${baseUrl}/users/me`, {
@@ -69,7 +72,9 @@ const changeUserInfo = async (userData, setState, setError) => {
       body: JSON.stringify(userData),
     });
     const data = await response.json();
-    setState(data);
+    if (setState) {
+      setState(data);
+    }
   } catch (error) {
     if (setError) {
       setError(`Ошибка на сервере: ${error.message}`);
@@ -78,16 +83,21 @@ const changeUserInfo = async (userData, setState, setError) => {
   }
 };
 
-// изменение аватара текущего пользователя
-const changeUserAvatar = async (userData, setState, setError) => {
+// изменение аватара текущего пользователя (только аватара)
+// в передаваемом объекте допускается только 1 свойство - avatar, значением которого дб ссылка
+// структура успешного ответа сервера совпадает с ответом на запрос данных текущего пользователя
+// следовательно можно использовать одно и то же состояние
+const changeUserAvatar = async (userAvatar, setState, setError) => {
   try {
     const response = await fetch(`${baseUrl}/users/me/avatar`, {
       headers: headers,
       method: 'PATCH',
-      body: JSON.stringify(userData),
+      body: JSON.stringify(userAvatar),
     });
     const data = await response.json();
-    setState(data);
+    if (setState) {
+      setState(data);
+    }
   } catch (error) {
     if (setError) {
       setError(`Ошибка на сервере: ${error.message}`);
@@ -96,4 +106,134 @@ const changeUserAvatar = async (userData, setState, setError) => {
   }
 };
 
-export { getExchangeRates, getArticleList, getUserInfo, changeUserInfo };
+// добавление нового поста
+// в объекте, передаваемом в body свойства title и text - обязательны, а image и tags - опциональны
+const addNewArticle = async (articleContent, setState, setError) => {
+  try {
+    const response = await fetch(`${baseUrl}/posts`, {
+      headers: headers,
+      method: 'POST',
+      body: JSON.stringify(articleContent),
+    });
+    const data = await response.json();
+    if (setState) {
+      setState(data);
+    }
+  } catch (error) {
+    if (setError) {
+      setError(`Ошибка на сервере: ${error.message}`);
+    }
+    console.error(error.message);
+  }
+};
+
+// редактирование текущего поста
+// обязательна передача id редактируемого поста (строка)
+// допустимые свойства updatedArticle: title, text, image и tags - все необязательны
+const updateArticle = async (postID, updatedArticle, setState, setError) => {
+  try {
+    const response = await fetch(`${baseUrl}/posts/${postID}`, {
+      headers: headers,
+      method: 'PATCH',
+      body: JSON.stringify(updatedArticle),
+    });
+    const data = await response.json();
+    if (setState) {
+      setState(data);
+    }
+  } catch (error) {
+    if (setError) {
+      setError(`Ошибка на сервере: ${error.message}`);
+    }
+    console.error(error.message);
+  }
+};
+
+// удаление поста, обязательна передача id (строка), подтверждение через confirm
+// из обычного скрипта работает, но в реакт использование 'confirm' выдает ошибку
+const deleteArticle = async (postID, setState, setError) => {
+  try {
+    // let confirmation = confirm('Вы действительно хотите удалить этот пост?');
+    // if (confirmation) {
+    const response = await fetch(`${baseUrl}/posts/${postID}`, {
+      headers: headers,
+      method: 'DELETE',
+    });
+    const data = await response.json();
+    if (setState) {
+      setState(data);
+    }
+    // }
+  } catch (error) {
+    if (setError) {
+      setError(`Ошибка на сервере: ${error.message}`);
+    }
+    console.error(error.message);
+  }
+};
+
+export {
+  getExchangeRates,
+  getArticleList,
+  getUserInfo,
+  changeUserInfo,
+  changeUserAvatar,
+  addNewArticle,
+  updateArticle,
+  deleteArticle,
+};
+
+/*------------------- Проверка АПИ -------------------*/
+let setCheckState = (data) => {
+  console.log('Server answer', data);
+};
+
+const fullUserData = {
+  about: 'Frontend developer trainee',
+  avatar: 'https://react-learning.ru/image-compressed/default-image.jpg',
+  email: 'KamajorQA@gmail.com',
+  group: 'group-9',
+  name: 'Kamajor',
+};
+
+const patchedUserData = {
+  about: 'Frontend developer trainee',
+  name: 'Kamajor',
+};
+
+const defaultUserAvatar = {
+  avatar: 'https://react-learning.ru/image-compressed/default-image.jpg',
+};
+
+const patchedUserAvatar = {
+  avatar:
+    'https://i.pinimg.com/originals/ff/37/ea/ff37ea978387dae70e20ca110eb3dfb8.jpg',
+};
+
+const newPost = {
+  title: 'Старейшие деревья в США пережили пожар',
+  text: 'Когда на прошлой неделе мощный лесной пожар охватил старейший государственный парк Калифорнии, это вызвало очень много опасений. И не только из-за угрозы людям.',
+  image:
+    'https://positivnews.ru/wp-content/uploads/2020/08/1-lovarv8a77pdmsoii09par.jpg',
+  tags: ['новости', 'fun'],
+};
+
+const updatedPost = {
+  //  title: "Улучшение экологии в Китае",
+  text: 'Сокращение загрязнения воздуха в Китае спасло уже сотни тысяч жизней с 1990 года. В мегаполисах Китая наблюдается значительное снижение большинства показателей загрязнения воздуха, а также связанных с этим случаев смерти. Согласно данным Фонда Билла и Мелинды Гейтс, опубликованным в журнале «Ланцет», во всех 33 провинциях, автономных районах и муниципалитетах Поднебесной наблюдается снижение в воздухе содержания твердых частиц, связанных с сжиганием топлива. Судя по цифрам, С 1990 года падение содержания твёрдых частиц в воздухе составило около 9%.',
+  image:
+    'https://positivnews.ru/wp-content/uploads/2020/09/1vadshoa8vdshrlva6vyp.jpg',
+  tags: ['новости'],
+};
+
+// changeUserAvatar(defaultUserAvatar, setCheckState);
+
+// changeUserAvatar(patchedUserAvatar, setCheckState);
+
+// getArticleList(setCheckState);
+
+// addNewArticle(newPost, setCheckState);
+
+// updateArticle('id', updatedPost, setCheckState);
+
+// deleteArticle('id', setCheckState);
