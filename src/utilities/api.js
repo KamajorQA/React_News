@@ -151,6 +151,7 @@ const updateArticle = async (postID, updatedArticle, setState, setError) => {
 
 // удаление поста, обязательна передача id (строка), подтверждение через confirm
 // из обычного скрипта работает, но в реакт использование 'confirm' выдает ошибку
+// Eslint не позволяет использовать confirm - необходимо изменение конфига Eslint
 const deleteArticle = async (postID, setState, setError) => {
   try {
     // let confirmation = confirm('Вы действительно хотите удалить этот пост?');
@@ -172,6 +173,132 @@ const deleteArticle = async (postID, setState, setError) => {
   }
 };
 
+// поиск постов по переданной на сервер query-строке (свойство URL.search) (поиск по полю title)
+const findArticles = async (queryString, setState, setError, setLoader) => {
+  try {
+    const response = await fetch(
+      `${baseUrl}/posts/search?query=${queryString}`,
+      { headers }
+    );
+    const data = await response.json();
+    if (setState) {
+      setState(data);
+    }
+  } catch (error) {
+    if (setError) {
+      setError(`Ошибка на сервере: ${error.message}`);
+    }
+    console.error(error.message);
+  } finally {
+    if (setLoader) {
+      setLoader(false);
+    }
+  }
+};
+
+// Комментарии. Использоваться будут для подзаголовков/дополнительных текстовых полей.
+
+// Создание нового "комментария"
+// обязательна передача id поста, который комментируется. В body должно передаваться свойство text
+const addNewComment = async (postID, commentText, setState, setError) => {
+  try {
+    const response = await fetch(`${baseUrl}/posts/comments/${postID}`, {
+      headers,
+      method: 'POST',
+      body: JSON.stringify(commentText),
+    });
+    const data = await response.json();
+    if (setState) {
+      setState(data);
+    }
+  } catch (error) {
+    if (setError) {
+      setError(`Ошибка на сервере: ${error.message}`);
+    }
+    console.error(error.message);
+  }
+};
+
+// Получение всех комментариев к конкретному посту
+const getCommentsByPost = async (postID, setState, setError) => {
+  try {
+    const response = await fetch(`${baseUrl}/posts/comments/${postID}`, {
+      headers,
+    });
+    const data = await response.json();
+    if (setState) {
+      setState(data);
+    }
+  } catch (error) {
+    if (setError) {
+      setError(`Ошибка на сервере: ${error.message}`);
+    }
+    console.error(error.message);
+  }
+};
+
+// Удаление "комментария"
+// обязательна передача id поста и id конкретного комментария
+const deleteComment = async (postID, commentID, setState, setError) => {
+  try {
+    const response = await fetch(
+      `${baseUrl}/posts/comments/${postID}/${commentID}`,
+      {
+        headers,
+        method: 'DELETE',
+      }
+    );
+    const data = await response.json();
+    if (setState) {
+      setState(data);
+    }
+  } catch (error) {
+    if (setError) {
+      setError(`Ошибка на сервере: ${error.message}`);
+    }
+    console.error(error.message);
+  }
+};
+
+// Лайки. Может использоваться для формирования списка к прочтению (подшивки)
+// Установление лайка. Обязательна передача id отмечаемого поста.
+const addLike = async (postID, setState, setError) => {
+  try {
+    const response = await fetch(`${baseUrl}/posts/likes/${postID}`, {
+      headers,
+      method: 'PUT',
+    });
+    const data = await response.json();
+    if (setState) {
+      setState(data);
+    }
+  } catch (error) {
+    if (setError) {
+      setError(`Ошибка на сервере: ${error.message}`);
+    }
+    console.error(error.message);
+  }
+};
+
+// Удаление (снятие) лайка. Обязательна передача id поста, с которого снимается лайк.
+const deleteLike = async (postID, setState, setError) => {
+  try {
+    const response = await fetch(`${baseUrl}/posts/likes/${postID}`, {
+      headers,
+      method: 'DELETE',
+    });
+    const data = await response.json();
+    if (setState) {
+      setState(data);
+    }
+  } catch (error) {
+    if (setError) {
+      setError(`Ошибка на сервере: ${error.message}`);
+    }
+    console.error(error.message);
+  }
+};
+
 export {
   getExchangeRates,
   getArticleList,
@@ -181,6 +308,12 @@ export {
   addNewArticle,
   updateArticle,
   deleteArticle,
+  findArticles,
+  addNewComment,
+  getCommentsByPost,
+  deleteComment,
+  addLike,
+  deleteLike,
 };
 
 /*------------------- Проверка АПИ -------------------*/
@@ -226,6 +359,12 @@ const updatedPost = {
   tags: ['новости'],
 };
 
+const querySearch = 'ов';
+
+const testComment = {
+  text: 'Вдумчивый Комментарий',
+};
+
 // changeUserAvatar(defaultUserAvatar, setCheckState);
 
 // changeUserAvatar(patchedUserAvatar, setCheckState);
@@ -237,3 +376,15 @@ const updatedPost = {
 // updateArticle('id', updatedPost, setCheckState);
 
 // deleteArticle('id', setCheckState);
+
+// findArticles(querySearch, setCheckState);
+
+// addNewComment('63d681de59b98b038f77ae41', testComment, setCheckState);
+
+// getCommentsByPost('postID', setCheckState);
+
+// deleteComment('63d681de59b98b038f77ae41', 'commentID', setCheckState);
+
+// addLike('63d681de59b98b038f77ae41', setCheckState);
+
+// deleteLike('63d681de59b98b038f77ae41', setCheckState);
