@@ -1,4 +1,6 @@
 .loader {
+  justify-self: center;
+  align-self: center;
   color: var(--text-main-color);
   display: flex;
   align-items: center;

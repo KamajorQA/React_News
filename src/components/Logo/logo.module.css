@@ -3,6 +3,9 @@
   display: flex;
   gap: 0.3rem;
   align-items: center;
+  font-family: 'El Messiri', sans-serif;
+  font-weight: 700;
+  font-size: 1.4rem;
 }
 
 .logoPic {

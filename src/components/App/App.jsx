@@ -3,19 +3,25 @@ import { ArticleList } from '../ArticleList/ArticleList.jsx';
 import InfoPanel from '../InfoPanel/InfoPanel.jsx';
 import Main from '../Main/Main.jsx';
 import Header from '../Header/Header.jsx';
+import Footer from '../Footer/Footer';
+import Logo from '../Logo/Logo';
+import Requester from '../Requester/Requester';
 
 function App() {
   return (
     <div className={s.layout}>
       <Header>
-        <div style={{ justifySelf: 'center' }}>Navpanel</div>
+        <Logo />
+        <div style={{ justifySelf: 'center', textTransform: 'uppercase' }}>
+          Navpanel
+        </div>
+        <Requester />
       </Header>
       <Main>
         <InfoPanel />
         <ArticleList />
       </Main>
-
-      <footer className={s.footer}>footer container</footer>
+      <Footer />
     </div>
   );
 }
