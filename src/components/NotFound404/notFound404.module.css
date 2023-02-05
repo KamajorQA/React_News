@@ -1,0 +1,25 @@
+.card {
+  border-radius: 8px;
+  box-shadow: 0 0 5px #fffa;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: 1fr 1fr;
+  overflow: hidden;
+  position: relative;
+}
+
+.cardTop img {
+  max-width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cardBottom {
+  place-self: center;
+  text-align: center;
+}
+
+.cardBottom h1 {
+  font-size: 5rem;
+}
