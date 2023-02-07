@@ -1,6 +1,6 @@
 .card {
   border-radius: 8px;
-  box-shadow: 0 0 5px #fffa;
+  box-shadow: var(--bx-shdw-main-color);
 
   display: grid;
   grid-auto-rows: 1fr 1fr;

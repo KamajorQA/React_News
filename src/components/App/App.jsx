@@ -8,13 +8,14 @@ import Logo from '../Logo/Logo.jsx';
 import Requester from '../Requester/Requester.jsx';
 import s from './app.module.css';
 import { NotFound404 } from '../NotFound404/NotFound404.jsx';
+import { ArticlePage } from '../ArticlePage/ArticlePage.jsx';
 
 function App() {
   return (
     <BrowserRouter>
       <div className={s.layout}>
         <Header>
-          <Logo />
+          <Logo href={'/'} />
           <div style={{ justifySelf: 'center', textTransform: 'uppercase' }}>
             Navpanel
           </div>
@@ -32,6 +33,7 @@ function App() {
                 </>
               }
             />
+            <Route path="article" element={<ArticlePage />} />
             <Route path="*" element={<NotFound404 />} />
           </Routes>
         </Main>

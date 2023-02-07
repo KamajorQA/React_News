@@ -1,12 +1,12 @@
 .card {
   border-radius: 8px;
-  box-shadow: 0 0 5px #fffa;
-
+  box-shadow: var(--bx-shdw-main-color);
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-auto-rows: 1fr 1fr;
   overflow: hidden;
-  position: relative;
+  max-width: 64rem;
+  margin: auto;
 }
 
 .cardTop img {
@@ -22,4 +22,29 @@
 
 .cardBottom h1 {
   font-size: 5rem;
+}
+
+@media (max-width: 1366px) {
+  .card {
+    max-width: 50rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .card {
+    max-width: 40rem;
+  }
+  .cardBottom h1 {
+    font-size: 4rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .card {
+    max-width: 20rem;
+    grid-template-columns: 1fr;
+  }
+  .cardBottom h1 {
+    font-size: 3rem;
+  }
 }

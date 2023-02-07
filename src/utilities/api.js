@@ -42,6 +42,25 @@ const getArticleList = async (setState, setError, setLoader) => {
   }
 };
 
+// получение конкретной новости по ID
+// обязательна передача ID новости
+const getArticleById = async (articleID, setState, setError, setLoader) => {
+  try {
+    const response = await fetch(`${baseUrl}/posts/${articleID}`, { headers });
+    const data = await response.json();
+    setState(data);
+  } catch (error) {
+    if (setError) {
+      setError(`Ошибка на сервере: ${error.message}`);
+    }
+    console.error(error.message);
+  } finally {
+    if (setLoader) {
+      setLoader(false);
+    }
+  }
+};
+
 // получение информации об авторизованном (по текущему токену) пользователю
 const getUserInfo = async (setState, setError, setLoader) => {
   try {
@@ -302,6 +321,7 @@ const deleteLike = async (postID, setState, setError) => {
 export {
   getExchangeRates,
   getArticleList,
+  getArticleById,
   getUserInfo,
   changeUserInfo,
   changeUserAvatar,

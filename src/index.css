@@ -4,6 +4,9 @@
   --primary-color: #f75404;
   --bg-overlay-color: #141414;
   --bg-secondary-color: #2b1811;
+  --bx-shdw-main-color: 0 0 5px #fffa;
+  --error-color: #ff4d4f;
+  --warning-color: #faad14;
 }
 
 html {
