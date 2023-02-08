@@ -13,7 +13,11 @@
   display: flex;
   justify-content: space-between;
 }
-.controls > a {
+
+.backwardsLink {
+  width: max-content;
+  text-decoration: none;
+  color: var(--primary-color);
   padding: 0.5rem 1rem;
   background-color: var(--bg-secondary-color);
   font-size: 1rem;

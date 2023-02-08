@@ -17,6 +17,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import s from './articlePage.module.css';
+import { Link } from 'react-router-dom';
 
 function ArticlePage() {
   const [article, setArticle] = useState({});
@@ -49,10 +50,10 @@ function ArticlePage() {
       ) : (
         <article className={s.container}>
           <section className={s.controls}>
-            <MainLink href={'/'}>
+            <Link className={s.backwardsLink} to="/">
               <FontAwesomeIcon icon={faAnglesLeft} />
               <span>на главную</span>
-            </MainLink>
+            </Link>
             <div className={s.bookmark}>
               <MainLink href={'#'}>
                 <FontAwesomeIcon

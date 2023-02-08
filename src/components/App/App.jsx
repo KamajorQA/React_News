@@ -2,43 +2,37 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ArticleList } from '../ArticleList/ArticleList.jsx';
 import InfoPanel from '../InfoPanel/InfoPanel.jsx';
 import Main from '../Main/Main.jsx';
-import Header from '../Header/Header.jsx';
-import Footer from '../Footer/Footer.jsx';
-import Logo from '../Logo/Logo.jsx';
-import Requester from '../Requester/Requester.jsx';
-import s from './app.module.css';
 import { NotFound404 } from '../NotFound404/NotFound404.jsx';
 import { ArticlePage } from '../ArticlePage/ArticlePage.jsx';
+import { MainLayout } from '../../layouts/MainLayout.jsx';
+import s from './app.module.css';
 
 function App() {
   return (
     <BrowserRouter>
       <div className={s.layout}>
-        <Header>
-          <Logo href={'/'} />
-          <div style={{ justifySelf: 'center', textTransform: 'uppercase' }}>
-            Navpanel
-          </div>
-          <Requester />
-        </Header>
-
-        <Main>
-          <Routes>
+        <Routes>
+          <Route path="/" element={<MainLayout />}>
             <Route
-              path="/"
+              index
               element={
-                <>
+                <Main>
                   <InfoPanel />
                   <ArticleList />
-                </>
+                </Main>
               }
             />
-            <Route path="article" element={<ArticlePage />} />
+            <Route
+              path="article"
+              element={
+                <Main>
+                  <ArticlePage />
+                </Main>
+              }
+            />
             <Route path="*" element={<NotFound404 />} />
-          </Routes>
-        </Main>
-
-        <Footer />
+          </Route>
+        </Routes>
       </div>
     </BrowserRouter>
   );

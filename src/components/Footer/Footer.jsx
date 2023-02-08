@@ -45,4 +45,4 @@ function Footer({ children }) {
   );
 }
 
-export default Footer;
+export { Footer };
