@@ -23,13 +23,14 @@ function App() {
               }
             />
             <Route
-              path="article"
+              path="news/:newsID"
               element={
                 <Main>
                   <ArticlePage />
                 </Main>
               }
             />
+            <Route path="stories" element={<></>} />
             <Route path="*" element={<NotFound404 />} />
           </Route>
         </Routes>

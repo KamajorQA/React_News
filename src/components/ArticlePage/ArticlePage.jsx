@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import {
   getArticleList,
   getArticleById,
@@ -24,20 +25,18 @@ function ArticlePage() {
   const [errorMsg, setErrorMsg] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
-  const articleID = '63d681de59b98b038f77ae41';
+  const { newsID } = useParams();
   const articleTextHTML = { __html: article.text };
 
   useEffect(() => {
-    getArticleById(articleID, setArticle, setErrorMsg, setIsLoading);
+    getArticleById(newsID, setArticle, setErrorMsg, setIsLoading);
   }, []);
-
-  console.log('объект с данными новости', article);
 
   let publicationDate = new Date(article?.created_at);
   publicationDate = `${publicationDate.getHours()}:${publicationDate.getMinutes()}, ${publicationDate.toLocaleDateString()}`;
 
-  let newsSource = article?.comments;
-  console.log('массив комментариев', newsSource);
+  let newsSource = article?.comments?.[1]?.text;
+  console.log('массив комментариев на ArticlePage', newsSource);
 
   if (errorMsg) {
     return <p>{errorMsg}</p>;
@@ -68,7 +67,7 @@ function ArticlePage() {
             <div className={s.imageContainer}>
               <p className={s.sourceInfo}>
                 <span>{publicationDate}</span>
-                {newsSource[1] && <span>Источник: {newsSource[1]}</span>}
+                {newsSource && <span>Источник: {newsSource}</span>}
               </p>
               <img src={article.image} alt={article.title} />
             </div>

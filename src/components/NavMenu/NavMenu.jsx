@@ -13,7 +13,7 @@ function NavMenu() {
       </NavLink>
       <NavLink
         className={({ isActive }) => (isActive ? s.activeLink : s.inactiveLink)}
-        to="article"
+        to="stories"
       >
         Истории
       </NavLink>

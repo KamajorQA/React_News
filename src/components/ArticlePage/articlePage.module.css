@@ -79,10 +79,11 @@
 }
 
 .text blockquote,
-p,
-h1,
-h2,
-h3 {
+.text p,
+.text h1,
+.text h2,
+.text h3,
+.text img {
   margin-block-start: 1rem;
   margin-block-end: 1rem;
 }
