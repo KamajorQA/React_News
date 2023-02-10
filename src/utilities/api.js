@@ -47,8 +47,10 @@ const getArticleList = async (setState, setError, setLoader) => {
 const getArticleById = async (articleID, setState, setError, setLoader) => {
   try {
     const response = await fetch(`${baseUrl}/posts/${articleID}`, { headers });
-    const data = await response.json();
-    setState(data);
+    if (response.ok) {
+      const data = await response.json();
+      setState(data);
+    } else throw new Error(`${response.status} ${response.statusText}`);
   } catch (error) {
     if (setError) {
       setError(`Ошибка на сервере: ${error.message}`);
