@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getArticleList } from '../../utilities/api';
 import { Article } from '../Article/Article';
-import Loader from '../Loader/Loader';
+import { Loader } from '../Loader/Loader';
 import s from './articleList.module.css';
 
 function ArticleList() {

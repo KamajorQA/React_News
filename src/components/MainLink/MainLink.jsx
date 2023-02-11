@@ -8,4 +8,4 @@ function MainLink({ href, children }) {
   );
 }
 
-export default MainLink;
+export { MainLink };

@@ -1,6 +1,6 @@
-import s from './logo.module.css';
+import { MainLink } from '../MainLink/MainLink';
 import logo from '../../assets/images/logo.png';
-import MainLink from '../MainLink/MainLink';
+import s from './logo.module.css';
 
 function Logo({ href }) {
   return (

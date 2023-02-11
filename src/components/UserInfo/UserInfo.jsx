@@ -1,7 +1,7 @@
 import s from './userInfo.module.css';
 import { useEffect, useState } from 'react';
 import { getUserInfo } from '../../utilities/api';
-import Loader from '../Loader/Loader';
+import { Loader } from '../Loader/Loader';
 
 function UserInfo({ href }) {
   const [userInfo, setUserInfo] = useState({});

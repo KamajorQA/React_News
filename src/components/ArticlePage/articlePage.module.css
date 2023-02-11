@@ -46,6 +46,14 @@
   opacity: 1;
 }
 
+.pin-false svg {
+  color: var(--text-main-color);
+}
+
+.pin-true svg {
+  color: var(--primary-color);
+}
+
 .content {
   flex-grow: 1;
   display: grid;

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getExchangeRates } from '../../utilities/api';
-import Loader from '../Loader/Loader.jsx';
+import { Loader } from '../Loader/Loader.jsx';
 import s from './exchangeRates.module.css';
 
 function ExchangeRates() {
@@ -22,9 +22,6 @@ function ExchangeRates() {
   useEffect(() => {
     getExchangeRates(setExchangeRates, setErrorMsg, setIsLoading);
   }, []);
-
-  console.log('ExchangeRates', exchangeRates);
-  console.log('ExchangeRates', isLoading);
 
   if (errorMsg) {
     return <p>{errorMsg}</p>;

@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import {
-  getArticleList,
   getArticleById,
   getUserInfo,
   deleteArticle,
   addLike,
   deleteLike,
 } from '../../utilities/api';
-import Loader from '../Loader/Loader.jsx';
-import MainLink from '../MainLink/MainLink.jsx';
+import { Loader } from '../Loader/Loader.jsx';
+import { MainLink } from '../MainLink/MainLink.jsx';
 import {
   faAnglesLeft,
   faBookmark,
@@ -18,12 +17,12 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import s from './articlePage.module.css';
-import { NotFound404 } from '../NotFound404/NotFound404';
 
 function ArticlePage() {
   const [article, setArticle] = useState({});
   const [errorMsg, setErrorMsg] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [userInfo, setUserInfo] = useState({});
 
   const { newsID } = useParams();
   const navigate = useNavigate();
@@ -39,11 +38,30 @@ function ArticlePage() {
     }
   }, [errorMsg, navigate]);
 
+  useEffect(() => {
+    getUserInfo(setUserInfo, setErrorMsg, setIsLoading);
+  }, []);
+
+  console.log('current user', userInfo, userInfo?._id);
+
   let publicationDate = new Date(article?.created_at);
   publicationDate = `${publicationDate.getHours()}:${publicationDate.getMinutes()}, ${publicationDate.toLocaleDateString()}`;
 
   let newsSource = article?.comments?.[1]?.text;
-  console.log('массив комментариев на ArticlePage', newsSource);
+  // console.log('массив комментариев на ArticlePage', newsSource);
+
+  const isLiked = article?.likes?.includes(userInfo?._id);
+  const likeClassName = `pin-${isLiked}`;
+  console.log('liked', isLiked);
+
+  function handleLikeClick(e) {
+    e.preventDefault();
+    if (isLiked) {
+      deleteLike(article._id, setArticle);
+    } else {
+      addLike(article._id, setArticle);
+    }
+  }
 
   return (
     <>
@@ -56,11 +74,12 @@ function ArticlePage() {
               <FontAwesomeIcon icon={faAnglesLeft} />
               <span>на главную</span>
             </Link>
-            <div className={s.bookmark}>
+            <div className={`${s.bookmark} ${s[likeClassName]}`}>
               <MainLink href={'#'}>
                 <FontAwesomeIcon
                   icon={faBookmark}
                   title="Добавить статью в закладки"
+                  onClick={handleLikeClick}
                 />
               </MainLink>
             </div>
