@@ -1,7 +1,7 @@
-import UserInfo from '../UserInfo/UserInfo';
+import { UserInfo } from '../UserInfo/UserInfo';
 import s from './requester.module.css';
 
-function Requester({ href }) {
+function Requester() {
   return (
     <div className={s.requester}>
       <div className={s.search}>
@@ -13,4 +13,4 @@ function Requester({ href }) {
   );
 }
 
-export default Requester;
+export { Requester };

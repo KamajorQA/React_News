@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
+import { UserContext } from '../../context/UserContext';
 import {
   getArticleById,
-  getUserInfo,
   deleteArticle,
   addLike,
   deleteLike,
@@ -22,7 +22,8 @@ function ArticlePage() {
   const [article, setArticle] = useState({});
   const [errorMsg, setErrorMsg] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  const [userInfo, setUserInfo] = useState({});
+
+  const { userInfo } = useContext(UserContext);
 
   const { newsID } = useParams();
   const navigate = useNavigate();
@@ -37,10 +38,6 @@ function ArticlePage() {
       navigate('..', { relative: 'route' });
     }
   }, [errorMsg, navigate]);
-
-  useEffect(() => {
-    getUserInfo(setUserInfo, setErrorMsg, setIsLoading);
-  }, []);
 
   console.log('current user', userInfo, userInfo?._id);
 
@@ -63,64 +60,57 @@ function ArticlePage() {
     }
   }
 
-  return (
-    <>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <article className={s.container}>
-          <section className={s.controls}>
-            <Link className={s.backwardsLink} to="/">
-              <FontAwesomeIcon icon={faAnglesLeft} />
-              <span>на главную</span>
-            </Link>
-            <div className={`${s.bookmark} ${s[likeClassName]}`}>
-              <MainLink href={'#'}>
-                <FontAwesomeIcon
-                  icon={faBookmark}
-                  title="Добавить статью в закладки"
-                  onClick={handleLikeClick}
-                />
-              </MainLink>
-            </div>
-          </section>
-          <section className={s.content}>
-            <h1 className={s.articleTitle}>{article?.title}</h1>
-            <div className={s.imageContainer}>
-              <p className={s.sourceInfo}>
-                <span>{publicationDate}</span>
-                {newsSource && <span>Источник: {newsSource}</span>}
-              </p>
-              <img src={article?.image} alt={article?.title} />
-            </div>
-            <div
-              className={s.text}
-              dangerouslySetInnerHTML={articleTextHTML}
-            ></div>
-          </section>
+  return isLoading ? (
+    <Loader />
+  ) : (
+    <article className={s.container}>
+      <section className={s.controls}>
+        <Link className={s.backwardsLink} to="/">
+          <FontAwesomeIcon icon={faAnglesLeft} />
+          <span>на главную</span>
+        </Link>
+        <div className={`${s.bookmark} ${s[likeClassName]}`}>
+          <MainLink href={'#'}>
+            <FontAwesomeIcon
+              icon={faBookmark}
+              title="Добавить статью в закладки"
+              onClick={handleLikeClick}
+            />
+          </MainLink>
+        </div>
+      </section>
+      <section className={s.content}>
+        <h1 className={s.articleTitle}>{article?.title}</h1>
+        <div className={s.imageContainer}>
+          <p className={s.sourceInfo}>
+            <span>{publicationDate}</span>
+            {newsSource && <span>Источник: {newsSource}</span>}
+          </p>
+          <img src={article?.image} alt={article?.title} />
+        </div>
+        <div className={s.text} dangerouslySetInnerHTML={articleTextHTML}></div>
+      </section>
 
-          <section className={s.controls}>
-            <span className={s.authorName}>Автор: {article?.author?.name}</span>
-            <div className={s.edits}>
-              <MainLink href={'#'}>
-                <FontAwesomeIcon
-                  icon={faPenToSquare}
-                  title="Редактировать статью"
-                  className={s.edit}
-                />
-              </MainLink>
-              <MainLink href={'#'}>
-                <FontAwesomeIcon
-                  icon={faTrash}
-                  title="Удалить статью"
-                  className={s.trash}
-                />
-              </MainLink>
-            </div>
-          </section>
-        </article>
-      )}
-    </>
+      <section className={s.controls}>
+        <span className={s.authorName}>Автор: {article?.author?.name}</span>
+        <div className={s.edits}>
+          <MainLink href={'#'}>
+            <FontAwesomeIcon
+              icon={faPenToSquare}
+              title="Редактировать статью"
+              className={s.edit}
+            />
+          </MainLink>
+          <MainLink href={'#'}>
+            <FontAwesomeIcon
+              icon={faTrash}
+              title="Удалить статью"
+              className={s.trash}
+            />
+          </MainLink>
+        </div>
+      </section>
+    </article>
   );
 }
 
