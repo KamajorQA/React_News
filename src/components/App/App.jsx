@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext.js';
 import { getUserInfo } from '../../utilities/api.js';
 import { ArticleList } from '../ArticleList/ArticleList.jsx';
-import InfoPanel from '../InfoPanel/InfoPanel.jsx';
+import { InfoPanel } from '../InfoPanel/InfoPanel.jsx';
 import Main from '../Main/Main.jsx';
 import { NotFound404 } from '../NotFound404/NotFound404.jsx';
 import { ArticlePage } from '../ArticlePage/ArticlePage.jsx';

@@ -3,6 +3,7 @@
   background-color: var(--bg-overlay-color);
   border-radius: 10px;
   margin-bottom: 1rem;
+  transition: all 0.4s linear;
 }
 
 .gridWrapper {

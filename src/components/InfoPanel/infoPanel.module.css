@@ -11,6 +11,7 @@
   background-color: var(--bg-secondary-color);
   color: #f75404;
   font-weight: 700;
+  transition: all 0.4s linear;
 }
 
 .info-panel article:first-child {

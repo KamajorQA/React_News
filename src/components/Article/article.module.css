@@ -5,6 +5,11 @@
   min-height: 10vh;
   overflow: hidden;
   position: relative;
+  transition: all 200ms linear;
+}
+
+.card:hover {
+  opacity: 0.8;
 }
 
 .card a {
@@ -47,14 +52,14 @@
 
 .card:nth-child(12n + 9) {
   grid-column: auto / span 12;
-  background-color: #2b1811;
-  color: #f75404;
+  background-color: var(--bg-secondary-color);
+  color: var(--primary-color);
   justify-content: center;
   align-items: center;
 }
 
 .card:nth-child(12n + 9) > a {
-  color: #f75404;
+  color: var(--primary-color);
   justify-content: center;
   align-items: center;
 }
