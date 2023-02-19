@@ -1,0 +1,14 @@
+.switcher {
+  padding: 0.5rem 1rem;
+  border: 0;
+  border-radius: 0.4rem;
+  background-color: var(--primary-color);
+  color: var(--text-main-color);
+  opacity: 0.7;
+  transition: all 0.2s linear;
+}
+
+.switcher:hover {
+  cursor: pointer;
+  opacity: 1;
+}

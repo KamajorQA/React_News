@@ -12,4 +12,4 @@ function Logo({ href }) {
   );
 }
 
-export default Logo;
+export { Logo };

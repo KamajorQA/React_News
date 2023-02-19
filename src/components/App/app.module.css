@@ -10,4 +10,5 @@
   flex-flow: column nowrap;
   background-color: var(--bg-main-color);
   color: var(--text-main-color);
+  transition: all 0.2s linear;
 }
