@@ -9,6 +9,7 @@ import { NotFound404 } from '../NotFound404/NotFound404.jsx';
 import { ArticlePage } from '../ArticlePage/ArticlePage.jsx';
 import { MainLayout } from '../../layouts/MainLayout.jsx';
 import { Loader } from '../Loader/Loader.jsx';
+import { AddArticleForm } from '../AddArticleForm/AddArticleForm.jsx';
 import s from './app.module.css';
 
 function App() {
@@ -51,6 +52,14 @@ function App() {
                 element={
                   <Main>
                     <ArticlePage />
+                  </Main>
+                }
+              />
+              <Route
+                path="new-article"
+                element={
+                  <Main>
+                    <AddArticleForm />
                   </Main>
                 }
               />
