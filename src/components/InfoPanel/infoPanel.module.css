@@ -22,3 +22,17 @@
   min-width: 25%;
   text-align: end;
 }
+
+.addArticle {
+  color: var(--primary-color);
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  padding: 0.1rem 0.4rem 0.2rem;
+  border-radius: 5px;
+  transition: all 0.2s linear;
+}
+
+.addArticle:hover {
+  box-shadow: var(--bx-shdw-main-color);
+}

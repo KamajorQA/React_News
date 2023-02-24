@@ -1,4 +1,7 @@
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../../context/UserContext';
+import { addNewArticle } from '../../utilities/api';
 import s from './addArticleForm.module.css';
 
 function AddArticleForm() {
@@ -10,12 +13,22 @@ function AddArticleForm() {
   });
 
   const [textAreaHeight, setTextAreaHeight] = useState('50');
+  const [article, setArticle] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
 
-  function handleFormSubmit(event) {
+  const { userInfo } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const isAdmin = !!(userInfo._id === '63d65ba559b98b038f77ae2e');
+  useEffect(() => {
+    !isAdmin && navigate('/');
+  }, [isAdmin, navigate]);
+
+  async function handleFormSubmit(event) {
     event.preventDefault();
 
-    console.log(formData);
-    alert(JSON.stringify(formData));
+    await addNewArticle(formData, setArticle, setErrorMsg);
+    setFormData({ title: '', text: '', image: '', tags: [] });
   }
 
   function handleInputChange(event) {
@@ -24,17 +37,41 @@ function AddArticleForm() {
 
   function handleTextareaChange(event) {
     setFormData({ ...formData, [event.target.name]: event.target.value });
-
     !!event.target.value
       ? setTextAreaHeight(event.target.scrollHeight)
       : setTextAreaHeight(50);
   }
 
   function handleSelectChange(event) {
-    setFormData({ ...formData, [event.target.name]: event.target.value });
-    console.log('event', event);
-    console.log('event.target.name', event.target.name);
-    console.log('event.target.value', event.target.value);
+    setFormData({ ...formData, [event.target.name]: [event.target.value] });
+  }
+
+  if (article) {
+    alert(JSON.stringify(article));
+    setTimeout(() => navigate('/'), 3000);
+    return (
+      <article className={s.container}>
+        <p className={s.success}>Статья успешно добавлена!</p>
+      </article>
+    );
+  }
+
+  if (errorMsg) {
+    setTimeout(() => navigate('/'), 3000);
+    return (
+      <article className={s.container}>
+        <p className={s.error}>{errorMsg}</p>
+      </article>
+    );
+  }
+
+  if (errorMsg) {
+    setTimeout(() => navigate('/'), 3000);
+    return (
+      <article className={s.container}>
+        <p className={s.error}>{errorMsg}</p>
+      </article>
+    );
   }
 
   return (
@@ -71,13 +108,7 @@ function AddArticleForm() {
           placeholder="https://www.picture.jpg/"
         />
         <label htmlFor="newArticle-tags">Тег статьи</label>
-        <select
-          id="newArticle-tags"
-          // value={[]}
-          // multiple={true}
-          onChange={handleSelectChange}
-          name="tags"
-        >
+        <select id="newArticle-tags" onChange={handleSelectChange} name="tags">
           <option value=""></option>
           <option value="новости">Новости</option>
           <option value="истории">Истории</option>

@@ -79,3 +79,17 @@
   cursor: pointer;
   opacity: 1;
 }
+
+.success {
+  color: var(--success-color);
+  font-weight: 500;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+}
+
+.error {
+  color: var(--error-color);
+  font-weight: 500;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+}
