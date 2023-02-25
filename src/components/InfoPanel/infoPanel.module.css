@@ -24,8 +24,9 @@
 }
 
 .addArticle {
-  color: var(--primary-color);
+  color: var(--text-main-color);
   text-transform: uppercase;
+  font-weight: 600;
   font-size: 0.9rem;
   letter-spacing: 0.5px;
   padding: 0.1rem 0.4rem 0.2rem;
@@ -34,5 +35,5 @@
 }
 
 .addArticle:hover {
-  box-shadow: var(--bx-shdw-main-color);
+  color: var(--primary-color);
 }

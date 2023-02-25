@@ -13,7 +13,7 @@ function AddArticleForm() {
   });
 
   const [textAreaHeight, setTextAreaHeight] = useState('50');
-  const [article, setArticle] = useState(null);
+  const [createdArticle, setCreatedArticle] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
 
   const { userInfo } = useContext(UserContext);
@@ -27,7 +27,7 @@ function AddArticleForm() {
   async function handleFormSubmit(event) {
     event.preventDefault();
 
-    await addNewArticle(formData, setArticle, setErrorMsg);
+    await addNewArticle(formData, setCreatedArticle, setErrorMsg);
     setFormData({ title: '', text: '', image: '', tags: [] });
   }
 
@@ -46,8 +46,7 @@ function AddArticleForm() {
     setFormData({ ...formData, [event.target.name]: [event.target.value] });
   }
 
-  if (article) {
-    alert(JSON.stringify(article));
+  if (createdArticle) {
     setTimeout(() => navigate('/'), 3000);
     return (
       <article className={s.container}>
@@ -57,16 +56,7 @@ function AddArticleForm() {
   }
 
   if (errorMsg) {
-    setTimeout(() => navigate('/'), 3000);
-    return (
-      <article className={s.container}>
-        <p className={s.error}>{errorMsg}</p>
-      </article>
-    );
-  }
-
-  if (errorMsg) {
-    setTimeout(() => navigate('/'), 3000);
+    setTimeout(() => navigate('/'), 5000);
     return (
       <article className={s.container}>
         <p className={s.error}>{errorMsg}</p>
@@ -98,14 +88,15 @@ function AddArticleForm() {
           required
           style={{ height: `${textAreaHeight}px` }}
         />
-        <label htmlFor="newArticle-imgLink">Ссылка на изображение</label>
+        <label htmlFor="newArticle-imgLink">Ссылка на изображение *</label>
         <input
           id="newArticle-imgLink"
-          type="text"
+          type="url"
           value={formData.image}
           onChange={handleInputChange}
           name="image"
           placeholder="https://www.picture.jpg/"
+          required
         />
         <label htmlFor="newArticle-tags">Тег статьи</label>
         <select id="newArticle-tags" onChange={handleSelectChange} name="tags">

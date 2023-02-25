@@ -136,9 +136,16 @@ const addNewArticle = async (articleContent, setState, setError) => {
       method: 'POST',
       body: JSON.stringify(articleContent),
     });
-    const data = await response.json();
-    if (setState) {
-      setState(data);
+    if (response.ok) {
+      const data = await response.json();
+      if (setState) {
+        setState(data);
+      }
+    } else {
+      const errorMessage = await response.json();
+      throw new Error(
+        `${response.status} ${response.statusText} Причина: ${errorMessage?.message}`
+      );
     }
   } catch (error) {
     if (setError) {

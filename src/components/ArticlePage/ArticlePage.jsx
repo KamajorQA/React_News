@@ -22,12 +22,15 @@ function ArticlePage() {
   const [article, setArticle] = useState({});
   const [errorMsg, setErrorMsg] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [deletedArticle, setDeletedArticle] = useState(null);
+  const [deleteErrorMsg, setDeleteErrorMsg] = useState(null);
 
   const { userInfo } = useContext(UserContext);
 
   const { newsID } = useParams();
   const navigate = useNavigate();
   const articleTextHTML = { __html: article.text };
+  const isAdmin = !!(userInfo._id === '63d65ba559b98b038f77ae2e');
 
   useEffect(() => {
     getArticleById(newsID, setArticle, setErrorMsg, setIsLoading);
@@ -58,6 +61,33 @@ function ArticlePage() {
     } else {
       addLike(article._id, setArticle);
     }
+  }
+
+  function handleEditClick(e) {
+    e.preventDefault();
+  }
+
+  function handleDeleteClick(e) {
+    e.preventDefault();
+    deleteArticle(newsID, setDeletedArticle, setDeleteErrorMsg);
+  }
+
+  if (deletedArticle) {
+    setTimeout(() => navigate('/'), 3000);
+    return (
+      <article className={s.container}>
+        <p className={s.success}>Статья удалена!</p>
+      </article>
+    );
+  }
+
+  if (deleteErrorMsg) {
+    setTimeout(() => navigate('/'), 5000);
+    return (
+      <article className={s.container}>
+        <p className={s.error}>{deleteErrorMsg}</p>
+      </article>
+    );
   }
 
   return isLoading ? (
@@ -94,20 +124,26 @@ function ArticlePage() {
       <section className={s.controls}>
         <span className={s.authorName}>Автор: {article?.author?.name}</span>
         <div className={s.edits}>
-          <MainLink href={'#'}>
-            <FontAwesomeIcon
-              icon={faPenToSquare}
-              title="Редактировать статью"
-              className={s.edit}
-            />
-          </MainLink>
-          <MainLink href={'#'}>
-            <FontAwesomeIcon
-              icon={faTrash}
-              title="Удалить статью"
-              className={s.trash}
-            />
-          </MainLink>
+          {isAdmin && (
+            <MainLink href={'#'}>
+              <FontAwesomeIcon
+                icon={faPenToSquare}
+                title="Редактировать статью"
+                className={s.edit}
+                onClick={handleEditClick}
+              />
+            </MainLink>
+          )}
+          {isAdmin && (
+            <MainLink href={'#'}>
+              <FontAwesomeIcon
+                icon={faTrash}
+                title="Удалить статью"
+                className={s.trash}
+                onClick={handleDeleteClick}
+              />
+            </MainLink>
+          )}
         </div>
       </section>
     </article>
