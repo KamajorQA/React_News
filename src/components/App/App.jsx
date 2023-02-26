@@ -4,12 +4,13 @@ import { UserContext } from '../../context/UserContext.js';
 import { getUserInfo } from '../../utilities/api.js';
 import { ArticleList } from '../ArticleList/ArticleList.jsx';
 import { InfoPanel } from '../InfoPanel/InfoPanel.jsx';
-import Main from '../Main/Main.jsx';
+import { Main } from '../Main/Main.jsx';
 import { NotFound404 } from '../NotFound404/NotFound404.jsx';
 import { ArticlePage } from '../ArticlePage/ArticlePage.jsx';
 import { MainLayout } from '../../layouts/MainLayout.jsx';
 import { Loader } from '../Loader/Loader.jsx';
 import { AddArticleForm } from '../AddArticleForm/AddArticleForm.jsx';
+import { Popup } from '../Popup/Popup.jsx';
 import s from './app.module.css';
 
 function App() {
@@ -63,7 +64,17 @@ function App() {
                   </Main>
                 }
               />
-              <Route path="stories" element={<></>} />
+              <Route
+                path="stories"
+                element={
+                  <>
+                    <Popup>
+                      <h1>check</h1>
+                      <p>check paragraph</p>
+                    </Popup>
+                  </>
+                }
+              />
               <Route path="*" element={<NotFound404 />} />
             </Route>
           </Routes>
