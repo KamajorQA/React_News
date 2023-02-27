@@ -17,8 +17,10 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import s from './articlePage.module.css';
+import { Popup } from '../Popup/Popup';
+import { EditArticleForm } from '../EditArticleForm/EditArticleForm';
 
-function ArticlePage() {
+function ArticlePage({ popupActive, setPopupActive }) {
   const [article, setArticle] = useState({});
   const [errorMsg, setErrorMsg] = useState('');
   const [isLoading, setIsLoading] = useState(true);
@@ -65,6 +67,7 @@ function ArticlePage() {
 
   function handleEditClick(e) {
     e.preventDefault();
+    setPopupActive(true);
   }
 
   function handleDeleteClick(e) {
@@ -146,6 +149,9 @@ function ArticlePage() {
           )}
         </div>
       </section>
+      <Popup popupActive={popupActive} setPopupActive={setPopupActive}>
+        <EditArticleForm setPopupActive={setPopupActive} />
+      </Popup>
     </article>
   );
 }

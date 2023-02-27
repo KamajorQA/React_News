@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { addNewArticle } from '../../utilities/api';
+import { useNavigate, useParams } from 'react-router-dom';
+import { updateArticle } from '../../utilities/api';
 import { BaseArticleForm } from '../BaseArticleForm/BaseArticleForm';
-import s from './addArticleForm.module.css';
+import s from './editArticleForm.module.css';
 
-function AddArticleForm() {
+function EditArticleForm({ setPopupActive }) {
   const [formData, setFormData] = useState({
     title: '',
     text: '',
@@ -12,23 +12,25 @@ function AddArticleForm() {
     tags: [],
   });
 
-  const [createdArticle, setCreatedArticle] = useState(null);
+  const [editedArticle, setEditedArticle] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
 
+  const { newsID } = useParams();
   const navigate = useNavigate();
 
   async function handleFormSubmit(event) {
     event.preventDefault();
 
-    await addNewArticle(formData, setCreatedArticle, setErrorMsg);
+    await updateArticle(newsID, formData, setEditedArticle, setErrorMsg);
     setFormData({ title: '', text: '', image: '', tags: [] });
+    setTimeout(() => setPopupActive(false), 3000);
   }
 
-  if (createdArticle) {
+  if (editedArticle) {
     setTimeout(() => navigate('/'), 3000);
     return (
       <article className={s.container}>
-        <p className={s.success}>Статья успешно добавлена!</p>
+        <p className={s.success}>Статья успешно изменена!</p>
       </article>
     );
   }
@@ -44,7 +46,7 @@ function AddArticleForm() {
 
   return (
     <article className={s.container}>
-      <h1 className={s.title}>Содержание новой статьи</h1>
+      <h1 className={s.title}>Новое содержание редактируемой статьи</h1>
       <BaseArticleForm
         handleFormSubmit={handleFormSubmit}
         formData={formData}
@@ -54,4 +56,4 @@ function AddArticleForm() {
   );
 }
 
-export { AddArticleForm };
+export { EditArticleForm };

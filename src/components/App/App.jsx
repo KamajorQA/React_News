@@ -17,6 +17,9 @@ function App() {
   const [userInfo, setUserInfo] = useState();
   const [errorMsg, setErrorMsg] = useState('');
   const [isLoading, setIsLoading] = useState('true');
+  const [popupActive, setPopupActive] = useState(false);
+
+  console.log(popupActive);
 
   const userContextValue = {
     userInfo,
@@ -52,7 +55,10 @@ function App() {
                 path="news/:newsID"
                 element={
                   <Main>
-                    <ArticlePage />
+                    <ArticlePage
+                      popupActive={popupActive}
+                      setPopupActive={setPopupActive}
+                    />
                   </Main>
                 }
               />
@@ -64,17 +70,7 @@ function App() {
                   </Main>
                 }
               />
-              <Route
-                path="stories"
-                element={
-                  <>
-                    <Popup>
-                      <h1>check</h1>
-                      <p>check paragraph</p>
-                    </Popup>
-                  </>
-                }
-              />
+              <Route path="stories" element={<></>} />
               <Route path="*" element={<NotFound404 />} />
             </Route>
           </Routes>
