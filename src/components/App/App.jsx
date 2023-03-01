@@ -4,17 +4,22 @@ import { UserContext } from '../../context/UserContext.js';
 import { getUserInfo } from '../../utilities/api.js';
 import { ArticleList } from '../ArticleList/ArticleList.jsx';
 import { InfoPanel } from '../InfoPanel/InfoPanel.jsx';
-import Main from '../Main/Main.jsx';
+import { Main } from '../Main/Main.jsx';
 import { NotFound404 } from '../NotFound404/NotFound404.jsx';
 import { ArticlePage } from '../ArticlePage/ArticlePage.jsx';
 import { MainLayout } from '../../layouts/MainLayout.jsx';
 import { Loader } from '../Loader/Loader.jsx';
+import { AddArticleForm } from '../AddArticleForm/AddArticleForm.jsx';
+import { Popup } from '../Popup/Popup.jsx';
 import s from './app.module.css';
 
 function App() {
   const [userInfo, setUserInfo] = useState();
   const [errorMsg, setErrorMsg] = useState('');
   const [isLoading, setIsLoading] = useState('true');
+  const [popupActive, setPopupActive] = useState(false);
+
+  console.log(popupActive);
 
   const userContextValue = {
     userInfo,
@@ -50,7 +55,18 @@ function App() {
                 path="news/:newsID"
                 element={
                   <Main>
-                    <ArticlePage />
+                    <ArticlePage
+                      popupActive={popupActive}
+                      setPopupActive={setPopupActive}
+                    />
+                  </Main>
+                }
+              />
+              <Route
+                path="new-article"
+                element={
+                  <Main>
+                    <AddArticleForm />
                   </Main>
                 }
               />
