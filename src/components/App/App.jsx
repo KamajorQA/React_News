@@ -11,6 +11,7 @@ import { MainLayout } from '../../layouts/MainLayout.jsx';
 import { Loader } from '../Loader/Loader.jsx';
 import { AddArticleForm } from '../AddArticleForm/AddArticleForm.jsx';
 import { Popup } from '../Popup/Popup.jsx';
+import { Login } from '../Login/Login.jsx';
 import s from './app.module.css';
 
 function App() {
@@ -71,6 +72,15 @@ function App() {
                 }
               />
               <Route path="stories" element={<></>} />
+              <Route
+                path="login"
+                element={
+                  <Login
+                    popupActive={popupActive}
+                    setPopupActive={setPopupActive}
+                  />
+                }
+              />
               <Route path="*" element={<NotFound404 />} />
             </Route>
           </Routes>
