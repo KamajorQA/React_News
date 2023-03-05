@@ -149,7 +149,7 @@ function ArticlePage({ popupActive, setPopupActive }) {
           )}
         </div>
       </section>
-      <Popup popupActive={popupActive} setPopupActive={setPopupActive}>
+      <Popup popupActive={popupActive} setPopupActive={setPopupActive} closable>
         <EditArticleForm setPopupActive={setPopupActive} />
       </Popup>
     </article>

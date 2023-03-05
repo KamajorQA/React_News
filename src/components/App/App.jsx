@@ -10,8 +10,8 @@ import { ArticlePage } from '../ArticlePage/ArticlePage.jsx';
 import { MainLayout } from '../../layouts/MainLayout.jsx';
 import { Loader } from '../Loader/Loader.jsx';
 import { AddArticleForm } from '../AddArticleForm/AddArticleForm.jsx';
-import { Popup } from '../Popup/Popup.jsx';
 import { Login } from '../Login/Login.jsx';
+import { Register } from '../Register/Register.jsx';
 import s from './app.module.css';
 
 function App() {
@@ -76,6 +76,15 @@ function App() {
                 path="login"
                 element={
                   <Login
+                    popupActive={popupActive}
+                    setPopupActive={setPopupActive}
+                  />
+                }
+              />
+              <Route
+                path="register"
+                element={
+                  <Register
                     popupActive={popupActive}
                     setPopupActive={setPopupActive}
                   />

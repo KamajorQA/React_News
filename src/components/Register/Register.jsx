@@ -6,14 +6,19 @@ import { AnimatedBackground } from '../AnimatedBackground/AnimatedBackground';
 import { Main } from '../Main/Main';
 import { Popup } from '../Popup/Popup';
 // import { authorization } from '../../utilities/api';
-import s from './login.module.css';
+import s from './register.module.css';
 
-function Login({ popupActive, setPopupActive }) {
-  const [loginData, setLoginData] = useState({
+function Register({ popupActive, setPopupActive }) {
+  const [registrationData, setRegistrationData] = useState({
     username: '',
     password: '',
   });
-  const [tipActive, setTipActive] = useState(false);
+  const [tipActive, setTipActive] = useState({
+    username: false,
+    password: false,
+  });
+  const [passwordViolate, setPasswordViolate] = useState(false);
+  const passValidClass = passwordViolate ? 'invalid' : '';
 
   useEffect(() => setPopupActive(true), []);
 
@@ -24,23 +29,46 @@ function Login({ popupActive, setPopupActive }) {
 
   async function handleFormSubmit(event) {
     event.preventDefault();
-
-    console.log(loginData);
-    alert(JSON.stringify(loginData));
-    // await updateArticle(newsID, formData, setEditedArticle, setErrorMsg);
-    // setLoginData({     username: '',    password: '', });
-    // setTimeout(() => setPopupActive(false), 3000);
+    passwordViolate
+      ? alert('Пароль слишком короткий')
+      : (() => {
+          console.log(registrationData);
+          alert(JSON.stringify(registrationData));
+          // await updateArticle(newsID, formData, setEditedArticle, setErrorMsg);
+          // setRegistrationData({     username: '',    password: '', });
+          // setTimeout(() => setPopupActive(false), 3000);
+        })();
   }
 
   function handleInputChange(event) {
-    setLoginData({ ...loginData, [event.target.name]: event.target.value });
+    setRegistrationData({
+      ...registrationData,
+      [event.target.name]: event.target.value,
+    });
   }
+
+  function handlePasswordChange(event) {
+    setRegistrationData({
+      ...registrationData,
+      [event.target.name]: event.target.value,
+    });
+    setPasswordViolate(
+      event.target.value.length >= 7 || event.target.value.length === 0
+        ? false
+        : true
+    );
+
+    event.target.value.length >= 7 || event.target.value.length === 0
+      ? setTipActive({ ...tipActive, password: false })
+      : setTipActive({ ...tipActive, password: true });
+  }
+
   function handleInputFocus(e) {
-    setTipActive(true);
+    setTipActive({ ...tipActive, [e.target.name]: true });
   }
 
   function handleInputBlur(e) {
-    setTipActive(false);
+    setTipActive({ ...tipActive, [e.target.name]: false });
   }
 
   // if (editedArticle) {
@@ -53,7 +81,7 @@ function Login({ popupActive, setPopupActive }) {
   // }
 
   // if (errorMsg) {
-  //   setTimeout(() => navigate('/login'), 5000);
+  //   setTimeout(() => navigate('/register'), 5000);
   //   return (
   //     <article className={s.container}>
   //       <p className={s.error}>{errorMsg}</p>
@@ -66,14 +94,14 @@ function Login({ popupActive, setPopupActive }) {
       <AnimatedBackground>
         <Popup popupActive={popupActive} setPopupActive={setPopupActive}>
           <article className={s.container}>
-            <h1 className={s.title}>Вход в систему</h1>
+            <h1 className={s.title}>Регистрация в системе</h1>
 
             <form onSubmit={handleFormSubmit} className={s.form}>
               <label htmlFor="register-username">E-mail: *</label>
               <input
                 id="register-username"
                 type="email"
-                value={loginData.username}
+                value={registrationData.username}
                 onChange={handleInputChange}
                 onFocus={handleInputFocus}
                 onBlur={handleInputBlur}
@@ -81,27 +109,33 @@ function Login({ popupActive, setPopupActive }) {
                 placeholder="Введите логин"
                 required
               />
-              {tipActive && (
+              {tipActive?.username && (
                 <p className={s.tip}>
-                  Вашим логином является e-mail, указанный при регистрации
+                  Ваш e-mail будет логином для входа на сайт
                 </p>
               )}
 
               <label htmlFor="register-password">Пароль: *</label>
               <input
                 id="register-password"
+                className={`${s[passValidClass]}`}
                 type="password"
-                value={loginData.password}
-                onChange={handleInputChange}
+                value={registrationData.password}
+                onChange={handlePasswordChange}
                 name="password"
                 placeholder="Введите пароль"
                 required
               />
-              <button type="submit">Войти</button>
+              {tipActive?.password && (
+                <p className={s.tip}>
+                  Пароль должен иметь длину не менее 7 символов
+                </p>
+              )}
+              <button type="submit">Зарегистрироваться</button>
             </form>
             <div className={s.divider}>или</div>
-            <Link className={s.registerLink} to="/register">
-              Зарегистрироваться
+            <Link className={s.registerLink} to="/login">
+              Войти
               <FontAwesomeIcon icon={faAnglesRight} />
             </Link>
           </article>
@@ -111,4 +145,4 @@ function Login({ popupActive, setPopupActive }) {
   );
 }
 
-export { Login };
+export { Register };
