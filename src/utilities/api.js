@@ -16,6 +16,35 @@ async function getExchangeRates(setState, setError, setLoader) {
   }
 }
 
+// Api для регистрация нового пользователя и авторизации на основном сервере
+const authUrl = 'https://api.react-learning.ru';
+const authHeaders = { 'Content-Type': 'application/json' };
+const authorizeUser = async (loginData, setState, setError) => {
+  try {
+    const response = await fetch(`${authUrl}/signin`, {
+      headers: authHeaders,
+      method: 'POST',
+      body: JSON.stringify(loginData),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      if (setState) {
+        setState(data);
+      }
+    } else {
+      const errorMessage = await response.json();
+      throw new Error(
+        `${response.status} ${response.statusText} Причина: ${errorMessage?.message}`
+      );
+    }
+  } catch (error) {
+    if (setError) {
+      setError(`Ошибка на сервере: ${error.message}`);
+    }
+    console.error(error.message);
+  }
+};
+
 // API для работы с основным сервером
 const baseUrl = 'https://api.react-learning.ru/v2/group-9';
 const headers = {
@@ -336,6 +365,7 @@ const deleteLike = async (postID, setState, setError) => {
 
 export {
   getExchangeRates,
+  authorizeUser,
   getArticleList,
   getArticleById,
   getUserInfo,

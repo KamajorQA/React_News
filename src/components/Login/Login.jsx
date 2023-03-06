@@ -1,35 +1,32 @@
 import { faAnglesRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { authorizeUser } from '../../utilities/api';
 import { AnimatedBackground } from '../AnimatedBackground/AnimatedBackground';
 import { Main } from '../Main/Main';
 import { Popup } from '../Popup/Popup';
-// import { authorization } from '../../utilities/api';
 import s from './login.module.css';
 
 function Login({ popupActive, setPopupActive }) {
   const [loginData, setLoginData] = useState({
-    username: '',
+    email: '',
     password: '',
   });
   const [tipActive, setTipActive] = useState(false);
 
   useEffect(() => setPopupActive(true), []);
 
-  const [editedArticle, setEditedArticle] = useState(null);
+  const [userAuthData, setUserAuthData] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   async function handleFormSubmit(event) {
     event.preventDefault();
 
-    console.log(loginData);
-    alert(JSON.stringify(loginData));
-    // await updateArticle(newsID, formData, setEditedArticle, setErrorMsg);
-    // setLoginData({     username: '',    password: '', });
-    // setTimeout(() => setPopupActive(false), 3000);
+    await authorizeUser(loginData, setUserAuthData, setErrorMsg);
+    setLoginData({ email: '', password: '' });
   }
 
   function handleInputChange(event) {
@@ -43,23 +40,19 @@ function Login({ popupActive, setPopupActive }) {
     setTipActive(false);
   }
 
-  // if (editedArticle) {
-  //   setTimeout(() => navigate('/'), 3000);
-  //   return (
-  //     <article className={s.container}>
-  //       <p className={s.success}>Статья успешно изменена!</p>
-  //     </article>
-  //   );
-  // }
+  if (userAuthData) {
+    localStorage.setItem('userToken', userAuthData.token);
+    setTimeout(() => navigate('/'), 3000);
+    return (
+      <article className={s.container}>
+        <p className={s.success}>Вы успешно авторизовались!</p>
+      </article>
+    );
+  }
 
-  // if (errorMsg) {
-  //   setTimeout(() => navigate('/login'), 5000);
-  //   return (
-  //     <article className={s.container}>
-  //       <p className={s.error}>{errorMsg}</p>
-  //     </article>
-  //   );
-  // }
+  if (errorMsg) {
+    setTimeout(() => setErrorMsg(null), 5000);
+  }
 
   return (
     <Main>
@@ -69,15 +62,15 @@ function Login({ popupActive, setPopupActive }) {
             <h1 className={s.title}>Вход в систему</h1>
 
             <form onSubmit={handleFormSubmit} className={s.form}>
-              <label htmlFor="register-username">E-mail: *</label>
+              <label htmlFor="register-email">E-mail: *</label>
               <input
-                id="register-username"
+                id="register-email"
                 type="email"
-                value={loginData.username}
+                value={loginData.email}
                 onChange={handleInputChange}
                 onFocus={handleInputFocus}
                 onBlur={handleInputBlur}
-                name="username"
+                name="email"
                 placeholder="Введите логин"
                 required
               />
@@ -106,6 +99,14 @@ function Login({ popupActive, setPopupActive }) {
             </Link>
           </article>
         </Popup>
+
+        {errorMsg && (
+          <Popup popupActive={popupActive} setPopupActive={setPopupActive}>
+            <article className={s.container}>
+              <p className={s.error}>{errorMsg}</p>
+            </article>
+          </Popup>
+        )}
       </AnimatedBackground>
     </Main>
   );
