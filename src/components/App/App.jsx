@@ -20,8 +20,6 @@ function App() {
   const [isLoading, setIsLoading] = useState('true');
   const [popupActive, setPopupActive] = useState(false);
 
-  console.log(popupActive);
-
   const userContextValue = {
     userInfo,
     setUserInfo,

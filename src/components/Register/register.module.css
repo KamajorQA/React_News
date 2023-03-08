@@ -1,3 +1,12 @@
+.mainWrapper {
+  flex-grow: 1;
+  width: 100%;
+  max-width: 1335px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
 .container {
   flex-grow: 1;
   background-color: var(--bg-overlay-color);
@@ -139,6 +148,12 @@
 .registerLink svg {
   vertical-align: middle;
   margin-left: 0.2rem;
+}
+
+@media (max-width: 1366px) {
+  .mainWrapper {
+    max-width: 1024px;
+  }
 }
 
 @media (max-width: 700px) {

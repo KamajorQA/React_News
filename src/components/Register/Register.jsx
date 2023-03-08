@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AnimatedBackground } from '../AnimatedBackground/AnimatedBackground';
-import { Main } from '../Main/Main';
 import { Popup } from '../Popup/Popup';
 // import { authorization } from '../../utilities/api';
 import s from './register.module.css';
@@ -90,7 +89,7 @@ function Register({ popupActive, setPopupActive }) {
   // }
 
   return (
-    <Main>
+    <main className={s.mainWrapper}>
       <AnimatedBackground>
         <Popup popupActive={popupActive} setPopupActive={setPopupActive}>
           <article className={s.container}>
@@ -141,7 +140,7 @@ function Register({ popupActive, setPopupActive }) {
           </article>
         </Popup>
       </AnimatedBackground>
-    </Main>
+    </main>
   );
 }
 
