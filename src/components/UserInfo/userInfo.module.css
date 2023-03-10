@@ -10,3 +10,13 @@
   border-radius: 50%;
   object-fit: cover;
 }
+
+.exitButton {
+  color: var(--text-main-color);
+  cursor: pointer;
+  transition: all 0.2s linear;
+}
+
+.exitButton:hover {
+  color: var(--primary-color);
+}

@@ -1,7 +1,8 @@
 import { faAnglesRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { UserContext } from '../../context/UserContext';
 import { authorizeUser } from '../../utilities/api';
 import { AnimatedBackground } from '../AnimatedBackground/AnimatedBackground';
 import { Main } from '../Main/Main';
@@ -14,11 +15,11 @@ function Login({ popupActive, setPopupActive }) {
     password: '',
   });
   const [tipActive, setTipActive] = useState(false);
-
-  useEffect(() => setPopupActive(true), []);
-
   const [userAuthData, setUserAuthData] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+  const { setIsAuthenticated } = useContext(UserContext);
+
+  useEffect(() => setPopupActive(true), []);
 
   const navigate = useNavigate();
 
@@ -39,6 +40,13 @@ function Login({ popupActive, setPopupActive }) {
   function handleInputBlur(e) {
     setTipActive(false);
   }
+
+  useEffect(() => {
+    if (userAuthData) {
+      setIsAuthenticated(true);
+      setPopupActive(false);
+    }
+  }, [userAuthData]);
 
   if (userAuthData) {
     localStorage.setItem('userToken', userAuthData.token);

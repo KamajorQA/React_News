@@ -9,7 +9,7 @@ function BaseArticleForm({ handleFormSubmit, formData, setFormData }) {
   const { userInfo } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const isAdmin = !!(userInfo._id === '63d65ba559b98b038f77ae2e');
+  const isAdmin = !!(userInfo?._id === '63d65ba559b98b038f77ae2e');
   useEffect(() => {
     !isAdmin && navigate('/');
   }, [isAdmin, navigate]);

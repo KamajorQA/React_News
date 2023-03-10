@@ -19,15 +19,25 @@ function App() {
   const [errorMsg, setErrorMsg] = useState('');
   const [isLoading, setIsLoading] = useState('true');
   const [popupActive, setPopupActive] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const userContextValue = {
     userInfo,
     setUserInfo,
+    isAuthenticated,
+    setIsAuthenticated,
   };
 
   useEffect(() => {
-    getUserInfo(setUserInfo, setErrorMsg, setIsLoading);
-  }, []);
+    const haveToken = localStorage.getItem('userToken');
+    setIsAuthenticated(!!haveToken);
+  }, [popupActive]);
+
+  useEffect(() => {
+    isAuthenticated
+      ? getUserInfo(setUserInfo, setErrorMsg, setIsLoading)
+      : setIsLoading(false);
+  }, [isAuthenticated]);
 
   if (errorMsg) {
     return <h1>{errorMsg}</h1>;
