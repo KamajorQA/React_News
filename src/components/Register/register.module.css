@@ -45,7 +45,7 @@
   margin: 1.5rem 0;
   gap: 1rem;
   display: grid;
-  grid-template-columns: 7rem 14rem;
+  grid-template-columns: 10rem 14rem;
 }
 
 .form > label {

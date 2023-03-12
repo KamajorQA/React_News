@@ -1,41 +1,44 @@
 import { faAnglesRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { registerUser } from '../../utilities/api';
 import { AnimatedBackground } from '../AnimatedBackground/AnimatedBackground';
 import { Popup } from '../Popup/Popup';
-// import { authorization } from '../../utilities/api';
 import s from './register.module.css';
 
 function Register({ popupActive, setPopupActive }) {
   const [registrationData, setRegistrationData] = useState({
-    username: '',
+    email: '',
     password: '',
   });
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [tipActive, setTipActive] = useState({
-    username: false,
+    email: false,
     password: false,
+    confirmPassword: false,
   });
   const [passwordViolate, setPasswordViolate] = useState(false);
   const passValidClass = passwordViolate ? 'invalid' : '';
+  const [passNoMatch, setPassNoMatch] = useState(false);
+  const confirmPassValidClass = passNoMatch ? 'invalid' : '';
+  const [newUser, setNewUser] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
 
   useEffect(() => setPopupActive(true), []);
 
-  const [editedArticle, setEditedArticle] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
-
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   async function handleFormSubmit(event) {
     event.preventDefault();
-    passwordViolate
+    passNoMatch
+      ? alert('Пароли не совпадают')
+      : passwordViolate
       ? alert('Пароль слишком короткий')
-      : (() => {
-          console.log(registrationData);
-          alert(JSON.stringify(registrationData));
-          // await updateArticle(newsID, formData, setEditedArticle, setErrorMsg);
-          // setRegistrationData({     username: '',    password: '', });
-          // setTimeout(() => setPopupActive(false), 3000);
+      : (async () => {
+          await registerUser(registrationData, setNewUser, setErrorMsg);
+          setRegistrationData({ email: '', password: '' });
+          setConfirmPassword('');
         })();
   }
 
@@ -60,6 +63,25 @@ function Register({ popupActive, setPopupActive }) {
     event.target.value.length >= 7 || event.target.value.length === 0
       ? setTipActive({ ...tipActive, password: false })
       : setTipActive({ ...tipActive, password: true });
+
+    if (confirmPassword.length > 0 && event.target.value !== confirmPassword) {
+      setPassNoMatch(true);
+    } else setPassNoMatch(false);
+  }
+
+  function handleConfirmPasswordChange(event) {
+    setConfirmPassword(event.target.value);
+    setPassNoMatch(
+      event.target.value === registrationData.password ||
+        event.target.value.length === 0
+        ? false
+        : true
+    );
+
+    event.target.value === registrationData.password ||
+    event.target.value.length === 0
+      ? setTipActive({ ...tipActive, confirmPassword: false })
+      : setTipActive({ ...tipActive, confirmPassword: true });
   }
 
   function handleInputFocus(e) {
@@ -70,23 +92,25 @@ function Register({ popupActive, setPopupActive }) {
     setTipActive({ ...tipActive, [e.target.name]: false });
   }
 
-  // if (editedArticle) {
-  //   setTimeout(() => navigate('/'), 3000);
-  //   return (
-  //     <article className={s.container}>
-  //       <p className={s.success}>Статья успешно изменена!</p>
-  //     </article>
-  //   );
-  // }
+  useEffect(() => {
+    if (newUser) {
+      setPopupActive(false);
+    }
+  }, [newUser]);
 
-  // if (errorMsg) {
-  //   setTimeout(() => navigate('/register'), 5000);
-  //   return (
-  //     <article className={s.container}>
-  //       <p className={s.error}>{errorMsg}</p>
-  //     </article>
-  //   );
-  // }
+  if (newUser) {
+    setTimeout(() => navigate('/login'), 5000);
+    return (
+      <article className={s.container}>
+        <p className={s.success}>Вы успешно зарегистировались!</p>
+        <p className={s.success}>Войдите со своими данными</p>
+      </article>
+    );
+  }
+
+  if (errorMsg) {
+    setTimeout(() => setErrorMsg(null), 5000);
+  }
 
   return (
     <main className={s.mainWrapper}>
@@ -96,19 +120,19 @@ function Register({ popupActive, setPopupActive }) {
             <h1 className={s.title}>Регистрация в системе</h1>
 
             <form onSubmit={handleFormSubmit} className={s.form}>
-              <label htmlFor="register-username">E-mail: *</label>
+              <label htmlFor="register-email">E-mail: *</label>
               <input
-                id="register-username"
+                id="register-email"
                 type="email"
-                value={registrationData.username}
+                value={registrationData.email}
                 onChange={handleInputChange}
                 onFocus={handleInputFocus}
                 onBlur={handleInputBlur}
-                name="username"
+                name="email"
                 placeholder="Введите логин"
                 required
               />
-              {tipActive?.username && (
+              {tipActive?.email && (
                 <p className={s.tip}>
                   Ваш e-mail будет логином для входа на сайт
                 </p>
@@ -130,6 +154,20 @@ function Register({ popupActive, setPopupActive }) {
                   Пароль должен иметь длину не менее 7 символов
                 </p>
               )}
+              <label htmlFor="confirm-password">Повторите пароль: *</label>
+              <input
+                id="confirm-password"
+                className={`${s[confirmPassValidClass]}`}
+                type="password"
+                value={confirmPassword}
+                onChange={handleConfirmPasswordChange}
+                name="password"
+                placeholder="Подтвердите пароль"
+                required
+              />
+              {tipActive?.confirmPassword && (
+                <p className={s.tip}>Пароли должны совпадать</p>
+              )}
               <button type="submit">Зарегистрироваться</button>
             </form>
             <div className={s.divider}>или</div>
@@ -139,6 +177,14 @@ function Register({ popupActive, setPopupActive }) {
             </Link>
           </article>
         </Popup>
+
+        {errorMsg && (
+          <Popup popupActive={popupActive} setPopupActive={setPopupActive}>
+            <article className={s.container}>
+              <p className={s.error}>{errorMsg}</p>
+            </article>
+          </Popup>
+        )}
       </AnimatedBackground>
     </main>
   );
