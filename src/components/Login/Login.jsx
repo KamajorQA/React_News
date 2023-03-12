@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 import { authorizeUser } from '../../utilities/api';
 import { AnimatedBackground } from '../AnimatedBackground/AnimatedBackground';
+import { Loader } from '../Loader/Loader';
 import { Main } from '../Main/Main';
 import { Popup } from '../Popup/Popup';
 import s from './login.module.css';
@@ -17,6 +18,9 @@ function Login({ popupActive, setPopupActive }) {
   const [tipActive, setTipActive] = useState(false);
   const [userAuthData, setUserAuthData] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+  // const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const { setIsAuthenticated } = useContext(UserContext);
 
   useEffect(() => setPopupActive(true), []);
@@ -25,8 +29,8 @@ function Login({ popupActive, setPopupActive }) {
 
   async function handleFormSubmit(event) {
     event.preventDefault();
-
-    await authorizeUser(loginData, setUserAuthData, setErrorMsg);
+    setIsLoading(true);
+    await authorizeUser(loginData, setUserAuthData, setErrorMsg, setIsLoading);
     setLoginData({ email: '', password: '' });
   }
 
@@ -62,7 +66,9 @@ function Login({ popupActive, setPopupActive }) {
     setTimeout(() => setErrorMsg(null), 5000);
   }
 
-  return (
+  return isLoading ? (
+    <Loader />
+  ) : (
     <Main>
       <AnimatedBackground>
         <Popup popupActive={popupActive} setPopupActive={setPopupActive}>

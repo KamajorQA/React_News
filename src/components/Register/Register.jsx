@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { registerUser } from '../../utilities/api';
 import { AnimatedBackground } from '../AnimatedBackground/AnimatedBackground';
+import { Loader } from '../Loader/Loader';
 import { Popup } from '../Popup/Popup';
 import s from './register.module.css';
 
@@ -24,6 +25,7 @@ function Register({ popupActive, setPopupActive }) {
   const confirmPassValidClass = passNoMatch ? 'invalid' : '';
   const [newUser, setNewUser] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => setPopupActive(true), []);
 
@@ -36,7 +38,13 @@ function Register({ popupActive, setPopupActive }) {
       : passwordViolate
       ? alert('Пароль слишком короткий')
       : (async () => {
-          await registerUser(registrationData, setNewUser, setErrorMsg);
+          setIsLoading(true);
+          await registerUser(
+            registrationData,
+            setNewUser,
+            setErrorMsg,
+            setIsLoading
+          );
           setRegistrationData({ email: '', password: '' });
           setConfirmPassword('');
         })();
@@ -112,7 +120,9 @@ function Register({ popupActive, setPopupActive }) {
     setTimeout(() => setErrorMsg(null), 5000);
   }
 
-  return (
+  return isLoading ? (
+    <Loader />
+  ) : (
     <main className={s.mainWrapper}>
       <AnimatedBackground>
         <Popup popupActive={popupActive} setPopupActive={setPopupActive}>

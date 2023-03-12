@@ -21,7 +21,12 @@ const authUrl = 'https://api.react-learning.ru';
 const authHeaders = { 'Content-Type': 'application/json' };
 
 // регистрация пользователя
-const registerUser = async (registrationData, setState, setError) => {
+const registerUser = async (
+  registrationData,
+  setState,
+  setError,
+  setLoader
+) => {
   try {
     const response = await fetch(`${authUrl}/signup`, {
       headers: authHeaders,
@@ -44,11 +49,15 @@ const registerUser = async (registrationData, setState, setError) => {
       setError(`Ошибка на сервере: ${error.message}`);
     }
     console.error(error.message);
+  } finally {
+    if (setLoader) {
+      setLoader(false);
+    }
   }
 };
 
 // авторизация пользователя
-const authorizeUser = async (loginData, setState, setError) => {
+const authorizeUser = async (loginData, setState, setError, setLoader) => {
   try {
     const response = await fetch(`${authUrl}/signin`, {
       headers: authHeaders,
@@ -71,6 +80,10 @@ const authorizeUser = async (loginData, setState, setError) => {
       setError(`Ошибка на сервере: ${error.message}`);
     }
     console.error(error.message);
+  } finally {
+    if (setLoader) {
+      setLoader(false);
+    }
   }
 };
 
