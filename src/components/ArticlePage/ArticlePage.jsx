@@ -32,7 +32,7 @@ function ArticlePage({ popupActive, setPopupActive }) {
   const { newsID } = useParams();
   const navigate = useNavigate();
   const articleTextHTML = { __html: article.text };
-  const isAdmin = !!(userInfo._id === '63d65ba559b98b038f77ae2e');
+  const isAdmin = !!(userInfo?._id === '63d65ba559b98b038f77ae2e');
 
   useEffect(() => {
     getArticleById(newsID, setArticle, setErrorMsg, setIsLoading);
@@ -43,8 +43,6 @@ function ArticlePage({ popupActive, setPopupActive }) {
       navigate('..', { relative: 'route' });
     }
   }, [errorMsg, navigate]);
-
-  console.log('current user', userInfo, userInfo?._id);
 
   let publicationDate = new Date(article?.created_at);
   publicationDate = `${publicationDate.getHours()}:${publicationDate.getMinutes()}, ${publicationDate.toLocaleDateString()}`;
