@@ -1,18 +1,8 @@
-import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../../context/UserContext';
+import { useState } from 'react';
 import s from './baseArticleForm.module.css';
 
 function BaseArticleForm({ handleFormSubmit, formData, setFormData }) {
   const [textAreaHeight, setTextAreaHeight] = useState('50');
-
-  const { userInfo } = useContext(UserContext);
-  const navigate = useNavigate();
-
-  const isAdmin = !!(userInfo._id === '63d65ba559b98b038f77ae2e');
-  useEffect(() => {
-    !isAdmin && navigate('/');
-  }, [isAdmin, navigate]);
 
   function handleInputChange(event) {
     setFormData({ ...formData, [event.target.name]: event.target.value });

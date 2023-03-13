@@ -10,7 +10,8 @@ import { ArticlePage } from '../ArticlePage/ArticlePage.jsx';
 import { MainLayout } from '../../layouts/MainLayout.jsx';
 import { Loader } from '../Loader/Loader.jsx';
 import { AddArticleForm } from '../AddArticleForm/AddArticleForm.jsx';
-import { Popup } from '../Popup/Popup.jsx';
+import { Login } from '../Login/Login.jsx';
+import { Register } from '../Register/Register.jsx';
 import s from './app.module.css';
 
 function App() {
@@ -18,17 +19,25 @@ function App() {
   const [errorMsg, setErrorMsg] = useState('');
   const [isLoading, setIsLoading] = useState('true');
   const [popupActive, setPopupActive] = useState(false);
-
-  console.log(popupActive);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const userContextValue = {
     userInfo,
     setUserInfo,
+    isAuthenticated,
+    setIsAuthenticated,
   };
 
   useEffect(() => {
-    getUserInfo(setUserInfo, setErrorMsg, setIsLoading);
-  }, []);
+    const haveToken = localStorage.getItem('userToken');
+    setIsAuthenticated(!!haveToken);
+  }, [popupActive]);
+
+  useEffect(() => {
+    isAuthenticated
+      ? getUserInfo(setUserInfo, setErrorMsg, setIsLoading)
+      : setIsLoading(false);
+  }, [isAuthenticated]);
 
   if (errorMsg) {
     return <h1>{errorMsg}</h1>;
@@ -71,6 +80,24 @@ function App() {
                 }
               />
               <Route path="stories" element={<></>} />
+              <Route
+                path="login"
+                element={
+                  <Login
+                    popupActive={popupActive}
+                    setPopupActive={setPopupActive}
+                  />
+                }
+              />
+              <Route
+                path="register"
+                element={
+                  <Register
+                    popupActive={popupActive}
+                    setPopupActive={setPopupActive}
+                  />
+                }
+              />
               <Route path="*" element={<NotFound404 />} />
             </Route>
           </Routes>

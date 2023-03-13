@@ -2,11 +2,13 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import s from './popup.module.css';
 
-function Popup({ children, popupActive, setPopupActive }) {
+function Popup({ children, popupActive, setPopupActive, closable = false }) {
   const popupClass = popupActive ? 'popupActive' : 'inactive';
 
   const deactivatePopup = (e) => {
-    setPopupActive(false);
+    if (closable) {
+      setPopupActive(false);
+    }
   };
 
   return (
@@ -24,12 +26,14 @@ function Popup({ children, popupActive, setPopupActive }) {
         className={`${s.popupContent} ${s[popupClass]}`}
         onClick={(e) => e.stopPropagation()}
       >
-        <FontAwesomeIcon
-          icon={faXmark}
-          title="Закрыть"
-          className={s.close}
-          onClick={deactivatePopup}
-        />
+        {closable && (
+          <FontAwesomeIcon
+            icon={faXmark}
+            title="Закрыть"
+            className={s.close}
+            onClick={deactivatePopup}
+          />
+        )}
         {children}
       </div>
     </section>

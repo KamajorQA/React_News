@@ -13,6 +13,7 @@
 
 .title {
   text-transform: uppercase;
+  text-align: center;
   font-size: 1.2rem;
 }
 
@@ -28,4 +29,10 @@
   font-weight: 500;
   font-size: 1.1rem;
   letter-spacing: 0.5px;
+}
+
+@media (max-width: 700px) {
+  .container {
+    gap: 0.5rem;
+  }
 }

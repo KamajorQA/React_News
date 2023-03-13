@@ -2,7 +2,9 @@ import { createContext } from 'react';
 
 const UserContext = createContext({
   userInfo: {},
-  setUsetInfo: () => {},
+  setUserInfo: () => {},
+  isAuthenticated: false,
+  setIsAuthenticated: () => {},
 });
 
 export { UserContext };

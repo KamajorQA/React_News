@@ -16,18 +16,93 @@ async function getExchangeRates(setState, setError, setLoader) {
   }
 }
 
-// API для работы с основным сервером
-const baseUrl = 'https://api.react-learning.ru/v2/group-9';
-const headers = {
-  'content-type': 'application/json',
-  authorization:
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2Q2NWJhNTU5Yjk4YjAzOGY3N2FlMmUiLCJncm91cCI6Imdyb3VwLTkiLCJpYXQiOjE2NzQ5OTQxMTgsImV4cCI6MTcwNjUzMDExOH0.RNeI7FKp_G_TBtGbZa5GjBjtvwOfdKlhHh2hkLZ5abg',
+// Api для регистрация нового пользователя и авторизации на основном сервере
+const authUrl = 'https://api.react-learning.ru';
+const authHeaders = { 'Content-Type': 'application/json' };
+
+// регистрация пользователя
+const registerUser = async (
+  registrationData,
+  setState,
+  setError,
+  setLoader
+) => {
+  try {
+    const response = await fetch(`${authUrl}/signup`, {
+      headers: authHeaders,
+      method: 'POST',
+      body: JSON.stringify({ ...registrationData, group: 'group-9' }),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      if (setState) {
+        setState(data);
+      }
+    } else {
+      const errorMessage = await response.json();
+      throw new Error(
+        `${response.status} ${response.statusText} Причина: ${errorMessage?.message}`
+      );
+    }
+  } catch (error) {
+    if (setError) {
+      setError(`Ошибка на сервере: ${error.message}`);
+    }
+    console.error(error.message);
+  } finally {
+    if (setLoader) {
+      setLoader(false);
+    }
+  }
 };
+
+// авторизация пользователя
+const authorizeUser = async (loginData, setState, setError, setLoader) => {
+  try {
+    const response = await fetch(`${authUrl}/signin`, {
+      headers: authHeaders,
+      method: 'POST',
+      body: JSON.stringify(loginData),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      if (setState) {
+        setState(data);
+      }
+    } else {
+      const errorMessage = await response.json();
+      throw new Error(
+        `${response.status} ${response.statusText} Причина: ${errorMessage?.message}`
+      );
+    }
+  } catch (error) {
+    if (setError) {
+      setError(`Ошибка на сервере: ${error.message}`);
+    }
+    console.error(error.message);
+  } finally {
+    if (setLoader) {
+      setLoader(false);
+    }
+  }
+};
+
+// API для работы с основным сервером
+
+const baseUrl = 'https://api.react-learning.ru/v2/group-9';
+function configurateHeaders() {
+  return {
+    headers: {
+      'content-type': 'application/json',
+      authorization: `Bearer ${localStorage.getItem('userToken')}`,
+    },
+  };
+}
 
 // получение всех постов группы
 const getArticleList = async (setState, setError, setLoader) => {
   try {
-    const response = await fetch(`${baseUrl}/posts`, { headers: headers });
+    const response = await fetch(`${baseUrl}/posts`, configurateHeaders());
     const data = await response.json();
     setState(data);
   } catch (error) {
@@ -46,7 +121,10 @@ const getArticleList = async (setState, setError, setLoader) => {
 // обязательна передача ID новости
 const getArticleById = async (articleID, setState, setError, setLoader) => {
   try {
-    const response = await fetch(`${baseUrl}/posts/${articleID}`, { headers });
+    const response = await fetch(
+      `${baseUrl}/posts/${articleID}`,
+      configurateHeaders()
+    );
     if (response.ok) {
       const data = await response.json();
       setState(data);
@@ -66,7 +144,7 @@ const getArticleById = async (articleID, setState, setError, setLoader) => {
 // получение информации об авторизованном (по текущему токену) пользователю
 const getUserInfo = async (setState, setError, setLoader) => {
   try {
-    const response = await fetch(`${baseUrl}/users/me`, { headers: headers });
+    const response = await fetch(`${baseUrl}/users/me`, configurateHeaders());
     const data = await response.json();
     setState(data);
   } catch (error) {
@@ -88,7 +166,7 @@ const getUserInfo = async (setState, setError, setLoader) => {
 const changeUserInfo = async (userData, setState, setError) => {
   try {
     const response = await fetch(`${baseUrl}/users/me`, {
-      headers: headers,
+      ...configurateHeaders(),
       method: 'PATCH',
       body: JSON.stringify(userData),
     });
@@ -111,7 +189,7 @@ const changeUserInfo = async (userData, setState, setError) => {
 const changeUserAvatar = async (userAvatar, setState, setError) => {
   try {
     const response = await fetch(`${baseUrl}/users/me/avatar`, {
-      headers: headers,
+      ...configurateHeaders(),
       method: 'PATCH',
       body: JSON.stringify(userAvatar),
     });
@@ -132,7 +210,7 @@ const changeUserAvatar = async (userAvatar, setState, setError) => {
 const addNewArticle = async (articleContent, setState, setError) => {
   try {
     const response = await fetch(`${baseUrl}/posts`, {
-      headers: headers,
+      ...configurateHeaders(),
       method: 'POST',
       body: JSON.stringify(articleContent),
     });
@@ -161,7 +239,7 @@ const addNewArticle = async (articleContent, setState, setError) => {
 const updateArticle = async (postID, updatedArticle, setState, setError) => {
   try {
     const response = await fetch(`${baseUrl}/posts/${postID}`, {
-      headers: headers,
+      ...configurateHeaders(),
       method: 'PATCH',
       body: JSON.stringify(updatedArticle),
     });
@@ -192,7 +270,7 @@ const deleteArticle = async (postID, setState, setError) => {
     // let confirmation = confirm('Вы действительно хотите удалить этот пост?');
     // if (confirmation) {
     const response = await fetch(`${baseUrl}/posts/${postID}`, {
-      headers: headers,
+      ...configurateHeaders(),
       method: 'DELETE',
     });
     const data = await response.json();
@@ -213,7 +291,7 @@ const findArticles = async (queryString, setState, setError, setLoader) => {
   try {
     const response = await fetch(
       `${baseUrl}/posts/search?query=${queryString}`,
-      { headers }
+      configurateHeaders()
     );
     const data = await response.json();
     if (setState) {
@@ -238,7 +316,7 @@ const findArticles = async (queryString, setState, setError, setLoader) => {
 const addNewComment = async (postID, commentText, setState, setError) => {
   try {
     const response = await fetch(`${baseUrl}/posts/comments/${postID}`, {
-      headers,
+      ...configurateHeaders(),
       method: 'POST',
       body: JSON.stringify(commentText),
     });
@@ -257,9 +335,10 @@ const addNewComment = async (postID, commentText, setState, setError) => {
 // Получение всех комментариев к конкретному посту
 const getCommentsByPost = async (postID, setState, setError) => {
   try {
-    const response = await fetch(`${baseUrl}/posts/comments/${postID}`, {
-      headers,
-    });
+    const response = await fetch(
+      `${baseUrl}/posts/comments/${postID}`,
+      configurateHeaders()
+    );
     const data = await response.json();
     if (setState) {
       setState(data);
@@ -279,7 +358,7 @@ const deleteComment = async (postID, commentID, setState, setError) => {
     const response = await fetch(
       `${baseUrl}/posts/comments/${postID}/${commentID}`,
       {
-        headers,
+        ...configurateHeaders(),
         method: 'DELETE',
       }
     );
@@ -300,7 +379,7 @@ const deleteComment = async (postID, commentID, setState, setError) => {
 const addLike = async (postID, setState, setError) => {
   try {
     const response = await fetch(`${baseUrl}/posts/likes/${postID}`, {
-      headers,
+      ...configurateHeaders(),
       method: 'PUT',
     });
     const data = await response.json();
@@ -319,7 +398,7 @@ const addLike = async (postID, setState, setError) => {
 const deleteLike = async (postID, setState, setError) => {
   try {
     const response = await fetch(`${baseUrl}/posts/likes/${postID}`, {
-      headers,
+      ...configurateHeaders(),
       method: 'DELETE',
     });
     const data = await response.json();
@@ -336,6 +415,8 @@ const deleteLike = async (postID, setState, setError) => {
 
 export {
   getExchangeRates,
+  registerUser,
+  authorizeUser,
   getArticleList,
   getArticleById,
   getUserInfo,
