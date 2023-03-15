@@ -7,7 +7,7 @@ import s from './infoPanel.module.css';
 
 function InfoPanel() {
   const { userInfo } = useContext(UserContext);
-  const isAdmin = !!(userInfo._id === '63d65ba559b98b038f77ae2e');
+  const isAdmin = !!(userInfo?._id === '63d65ba559b98b038f77ae2e');
   return (
     <section className={s['info-panel']}>
       <ExchangeRates />
