@@ -12,6 +12,32 @@ html {
   --error-color: #ff4d4f;
   --warning-color: #faad14;
   --success-color: #52c41a;
+  --dark-gradient-card-mask: linear-gradient(
+    -180deg,
+    rgba(0, 0, 0, 0) 7%,
+    rgba(0, 0, 0, 0.08) 12%,
+    rgba(0, 0, 0, 0.16) 17%,
+    rgba(0, 0, 0, 0.22) 21%,
+    rgba(0, 0, 0, 0.32) 26%,
+    rgba(0, 0, 0, 0.42) 32%,
+    rgba(0, 0, 0, 0.52) 38%,
+    rgba(0, 0, 0, 0.62) 47%,
+    rgba(0, 0, 0, 0.72) 57%,
+    rgba(0, 0, 0, 0.82) 65%
+  );
+  --brown-gradient-card-mask: linear-gradient(
+    -180deg,
+    rgba(81, 32, 26, 0) 7%,
+    rgba(81, 32, 26, 0.08) 12%,
+    rgba(81, 32, 26, 0.16) 17%,
+    rgba(81, 32, 26, 0.22) 21%,
+    rgba(81, 32, 26, 0.32) 26%,
+    rgba(81, 32, 26, 0.42) 32%,
+    rgba(81, 32, 26, 0.52) 38%,
+    rgba(81, 32, 26, 0.62) 47%,
+    rgba(81, 32, 26, 0.72) 57%,
+    rgba(81, 32, 26, 0.82) 65%
+  );
   font-weight: 400;
 }
 
@@ -23,6 +49,32 @@ html[data-theme='light'] {
   --bg-overlay-color: #fff;
   --bg-secondary-color: #fff2e6;
   --bx-shdw-main-color: 0 0 5px #000a;
+  --dark-gradient-card-mask: linear-gradient(
+    -180deg,
+    rgba(238, 236, 235, 0) 7%,
+    rgba(238, 236, 235, 0.08) 12%,
+    rgba(238, 236, 235, 0.16) 17%,
+    rgba(238, 236, 235, 0.22) 21%,
+    rgba(238, 236, 235, 0.32) 26%,
+    rgba(238, 236, 235, 0.42) 32%,
+    rgba(238, 236, 235, 0.52) 38%,
+    rgba(238, 236, 235, 0.62) 47%,
+    rgba(238, 236, 235, 0.72) 57%,
+    rgba(238, 236, 235, 0.82) 65%
+  );
+  --brown-gradient-card-mask: linear-gradient(
+    -180deg,
+    rgba(148, 187, 233, 0) 7%,
+    rgba(148, 187, 233, 0.08) 12%,
+    rgba(148, 187, 233, 0.16) 17%,
+    rgba(148, 187, 233, 0.22) 21%,
+    rgba(148, 187, 233, 0.32) 26%,
+    rgba(148, 187, 233, 0.42) 32%,
+    rgba(148, 187, 233, 0.52) 38%,
+    rgba(148, 187, 233, 0.62) 47%,
+    rgba(148, 187, 233, 0.72) 57%,
+    rgba(148, 187, 233, 0.82) 65%
+  );
   font-weight: 500;
 }
 
