@@ -8,9 +8,15 @@ function Switcher() {
   };
 
   return (
-    <button onClick={handleChangeTheme} className={s.switcher}>
-      Toggle theme
-    </button>
+    <>
+      <label class={s.switch}>
+        <input type="checkbox" />
+        <span class={s.slider}></span>
+      </label>
+      <button onClick={handleChangeTheme} className={s.switcher}>
+        Toggle theme
+      </button>
+    </>
   );
 }
 
