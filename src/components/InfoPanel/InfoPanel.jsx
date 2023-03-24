@@ -18,9 +18,7 @@ function InfoPanel() {
           </Link>
         )}
       </article>
-      <article>
-        <Switcher />
-      </article>
+      <article>{/* <Switcher /> */}</article>
     </section>
   );
 }

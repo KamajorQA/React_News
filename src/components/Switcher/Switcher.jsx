@@ -10,12 +10,13 @@ function Switcher() {
   return (
     <>
       <label class={s.switch}>
-        <input type="checkbox" />
+        <input
+          type="checkbox"
+          defaultChecked={theme === 'light'}
+          onChange={handleChangeTheme}
+        />
         <span class={s.slider}></span>
       </label>
-      <button onClick={handleChangeTheme} className={s.switcher}>
-        Toggle theme
-      </button>
     </>
   );
 }
