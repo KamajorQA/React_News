@@ -22,3 +22,10 @@ a {
 .inactiveLink:hover {
   opacity: 0.7;
 }
+
+@media (max-width: 700px) {
+  .navigation {
+    flex-direction: column;
+    gap: 0rem;
+  }
+}

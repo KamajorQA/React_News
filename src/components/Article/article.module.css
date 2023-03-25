@@ -119,3 +119,40 @@
 .tags > span {
   background-color: var(--bg-secondary-color);
 }
+
+@media (max-width: 700px) {
+  .card:nth-child(odd),
+  .card:nth-child(even) {
+    grid-column: 1;
+  }
+
+  .card:nth-child(12n + 4) a::after,
+  .card:nth-child(12n + 5) a::after {
+    background-image: none;
+  }
+
+  .card:nth-child(12n + 4) .cardBottom,
+  .card:nth-child(12n + 5) .cardBottom {
+    position: static;
+    padding-bottom: 1rem;
+  }
+
+  .card:nth-child(12n + 9) {
+    background-color: transparent;
+    justify-content: initial;
+    align-items: initial;
+    color: inherit;
+  }
+
+  .card:nth-child(12n + 9) > a {
+    color: inherit;
+    justify-content: initial;
+    align-items: initial;
+  }
+
+  .card:nth-child(12n + 9) .cardTop,
+  .card:nth-child(12n + 9) .tags,
+  .card:nth-child(12n + 9) .publishInfo {
+    display: initial;
+  }
+}
