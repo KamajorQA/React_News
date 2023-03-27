@@ -12,3 +12,52 @@
   cursor: pointer;
   opacity: 1;
 }
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 3rem;
+  height: 1.44rem;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 1.7rem;
+}
+
+.slider:before {
+  position: absolute;
+  content: '🌓';
+  font-size: 1.04rem;
+  transform: rotate(90deg);
+  left: 0.18rem;
+  top: 0.056rem;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: var(--primary-color);
+}
+
+input:checked + .slider:before {
+  transform: translateX(1.3rem) rotate(270deg);
+}
+
+@media (max-width: 1100px) {
+  .slider:before {
+    left: 0.15rem;
+    top: 0.036rem;
+  }
+}
