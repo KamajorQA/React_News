@@ -1,7 +1,10 @@
 .userInfo {
-  display: flex;
+  /* display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; */
+  position: relative;
+  display: inline-block;
+  text-align: center;
 }
 
 .userAvatar {
@@ -19,4 +22,30 @@
 
 .exitButton:hover {
   color: var(--primary-color);
+}
+
+.dropdownContent {
+  display: none;
+  position: absolute;
+  right: 0;
+  z-index: 1;
+  background-color: var(--bg-overlay-color);
+  box-shadow: var(--bx-shdw-secondary-color);
+  border-radius: 8px;
+  padding: 0 0.3rem 0.1rem;
+}
+
+.dropdownContent a {
+  color: var(--text-main-color);
+  cursor: pointer;
+  transition: all 0.2s linear;
+  display: block;
+}
+
+.dropdownContent a:hover {
+  color: var(--primary-color);
+}
+
+.userInfo:hover .dropdownContent {
+  display: block;
 }

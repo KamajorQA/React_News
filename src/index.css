@@ -9,6 +9,7 @@ html {
   --bg-overlay-color: #141414;
   --bg-secondary-color: #2b1811;
   --bx-shdw-main-color: 0 0 5px #fffa;
+  --bx-shdw-secondary-color: 0 1px 8px 0px #fffa;
   --error-color: #ff4d4f;
   --warning-color: #faad14;
   --success-color: #52c41a;
@@ -47,6 +48,7 @@ html[data-theme='light'] {
   --bg-overlay-color: #fff;
   --bg-secondary-color: #fff2e6;
   --bx-shdw-main-color: 0 0 5px #000a;
+  --bx-shdw-secondary-color: 0 1px 8px 0px #000a;
   --dark-gradient-card-mask: linear-gradient(
     -180deg,
     rgba(238, 236, 235, 0) 7%,
