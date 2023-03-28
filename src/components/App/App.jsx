@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext.js';
 import { getUserInfo } from '../../utilities/api.js';
 import { ArticleList } from '../ArticleList/ArticleList.jsx';
+import { StoriesList } from '../StoriesList/StoriesList.jsx';
 import { InfoPanel } from '../InfoPanel/InfoPanel.jsx';
 import { Main } from '../Main/Main.jsx';
 import { NotFound404 } from '../NotFound404/NotFound404.jsx';
@@ -79,7 +80,15 @@ function App() {
                   </Main>
                 }
               />
-              <Route path="stories" element={<></>} />
+              <Route
+                path="stories"
+                element={
+                  <Main>
+                    <InfoPanel />
+                    <StoriesList />
+                  </Main>
+                }
+              />
               <Route
                 path="login"
                 element={
