@@ -7,7 +7,7 @@ function Article({ image, tags, title, author, created_at, text, _id }) {
 
   return (
     <article className={s.card}>
-      <Link to={`news/${_id}`}>
+      <Link to={`/news/${_id}`}>
         <div className={s.cardTop}>
           <img src={image} alt={'News image'} />
         </div>

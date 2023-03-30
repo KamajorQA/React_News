@@ -29,22 +29,6 @@ function ArticleList() {
               .map((elem) => (
                 <Article key={elem._id} {...elem} />
               ))}
-
-            {articles
-              .filter((elem) => elem.author._id === '63d65ba559b98b038f77ae2e')
-              .map((elem) => (
-                <Article key={elem._id} {...elem} />
-              ))}
-            {articles
-              .filter((elem) => elem.author._id === '63d65ba559b98b038f77ae2e')
-              .map((elem) => (
-                <Article key={elem._id} {...elem} />
-              ))}
-            {articles
-              .filter((elem) => elem.author._id === '63d65ba559b98b038f77ae2e')
-              .map((elem) => (
-                <Article key={elem._id} {...elem} />
-              ))}
           </div>
         </section>
       )}
