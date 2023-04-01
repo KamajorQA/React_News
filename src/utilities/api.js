@@ -186,11 +186,11 @@ const changeUserInfo = async (userData, setState, setError) => {
 // в передаваемом объекте допускается только 1 свойство - avatar, значением которого дб ссылка
 // структура успешного ответа сервера совпадает с ответом на запрос данных текущего пользователя
 // следовательно можно использовать одно и то же состояние
-const changeUserAvatar = async (userAvatar, setState, setError) => {
+let changeUserAvatar = async (userAvatar, setState, setError, setLoader) => {
   try {
     const response = await fetch(`${baseUrl}/users/me/avatar`, {
       ...configurateHeaders(),
-      method: 'PATCH',
+      method: 'PUT',
       body: JSON.stringify(userAvatar),
     });
     const data = await response.json();
@@ -202,6 +202,40 @@ const changeUserAvatar = async (userAvatar, setState, setError) => {
       setError(`Ошибка на сервере: ${error.message}`);
     }
     console.error(error.message);
+  } finally {
+    if (setLoader) {
+      setLoader(false);
+    }
+  }
+};
+
+changeUserAvatar = async (userAvatar, setState, setError, setLoader) => {
+  try {
+    const response = await fetch(`${baseUrl}/users/me/avatar`, {
+      ...configurateHeaders(),
+      method: 'PATCH',
+      body: JSON.stringify(userAvatar),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      if (setState) {
+        setState(data);
+      }
+    } else {
+      const errorMessage = await response.json();
+      throw new Error(
+        `${response.status} ${response.statusText} Причина: ${errorMessage?.message}`
+      );
+    }
+  } catch (error) {
+    if (setError) {
+      setError(`Ошибка на сервере: ${error.message}`);
+    }
+    console.error(error.message);
+  } finally {
+    if (setLoader) {
+      setLoader(false);
+    }
   }
 };
 

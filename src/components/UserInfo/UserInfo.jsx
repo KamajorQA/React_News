@@ -28,8 +28,8 @@ function UserInfo() {
           </p>
         )}
         <div className={s.dropdownContent}>
-          <a href="#">Ссылка 1</a>
-          <a href="#">Ссылка 2</a>
+          <a href="/edit-user">Изменить данные</a>
+          <a href="#">Избранное</a>
           <a href="#">Ссылка 3</a>
         </div>
       </div>

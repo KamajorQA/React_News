@@ -18,7 +18,6 @@ function Login({ popupActive, setPopupActive }) {
   const [tipActive, setTipActive] = useState(false);
   const [userAuthData, setUserAuthData] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-  // const [isLoading, setIsLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const { setIsAuthenticated } = useContext(UserContext);

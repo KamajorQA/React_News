@@ -14,6 +14,7 @@ import { AddArticleForm } from '../AddArticleForm/AddArticleForm.jsx';
 import { Login } from '../Login/Login.jsx';
 import { Register } from '../Register/Register.jsx';
 import s from './app.module.css';
+import { EditUserInfoForm } from '../EditUserInfoForm/EditUserInfoForm.jsx';
 
 function App() {
   const [userInfo, setUserInfo] = useState();
@@ -102,6 +103,15 @@ function App() {
                 path="register"
                 element={
                   <Register
+                    popupActive={popupActive}
+                    setPopupActive={setPopupActive}
+                  />
+                }
+              />
+              <Route
+                path="edit-user"
+                element={
+                  <EditUserInfoForm
                     popupActive={popupActive}
                     setPopupActive={setPopupActive}
                   />
