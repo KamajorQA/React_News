@@ -3,19 +3,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
-import { changeUserAvatar } from '../../utilities/api';
+import { changeUserAvatar, changeUserInfo } from '../../utilities/api';
 import { Loader } from '../Loader/Loader';
 import { Main } from '../Main/Main';
 import { Popup } from '../Popup/Popup';
 import s from './editUserInfoForm.module.css';
 
 function EditUserInfoForm({ popupActive, setPopupActive }) {
-  const [loginData, setLoginData] = useState({
-    email: '',
-    password: '',
+  const [newUserInfo, setNewUserInfo] = useState({
+    name: '',
+    about: '',
   });
-  const [tipActive, setTipActive] = useState(false);
-  const [userAuthData, setUserAuthData] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -29,7 +27,6 @@ function EditUserInfoForm({ popupActive, setPopupActive }) {
   async function handleAvatarFormSubmit(event) {
     event.preventDefault();
     console.log(event.target.value);
-    // alert('form called');
     setIsLoading(true);
     await changeUserAvatar(
       newUserAvatar,
@@ -40,43 +37,25 @@ function EditUserInfoForm({ popupActive, setPopupActive }) {
     setNewUserAvatar({ avatar: '' });
   }
 
-  // useEffect(() => setPopupActive(true), []);
-
-  const navigate = useNavigate();
-
-  // async function handleFormSubmit(event) {
-  //   event.preventDefault();
-  //   setIsLoading(true);
-  //   await authorizeUser(loginData, setUserAuthData, setErrorMsg, setIsLoading);
-  //   setLoginData({ email: '', password: '' });
-  // }
-
-  function handleInputChange(event) {
-    setLoginData({ ...loginData, [event.target.name]: event.target.value });
-  }
-  function handleInputFocus(e) {
-    setTipActive(true);
+  function handleBioInputChange(event) {
+    setNewUserInfo({
+      ...newUserInfo,
+      [event.target.name]: event.target.value,
+    });
   }
 
-  function handleInputBlur(e) {
-    setTipActive(false);
-  }
-
-  useEffect(() => {
-    if (userAuthData) {
-      // setIsAuthenticated(true);
-      setPopupActive(true);
+  async function handleBioFormSubmit(event) {
+    event.preventDefault();
+    let newUserData = newUserInfo;
+    if (newUserInfo.name.length <= 0) {
+      newUserData.name = userInfo.name;
     }
-  }, [userAuthData]);
-
-  if (userAuthData) {
-    localStorage.setItem('userToken', userAuthData.token);
-    setTimeout(() => navigate('/'), 3000);
-    return (
-      <article className={s.container}>
-        <p className={s.success}>Вы успешно авторизовались!</p>
-      </article>
-    );
+    if (newUserInfo.about.length <= 0) {
+      newUserData.about = userInfo.about;
+    }
+    setIsLoading(true);
+    await changeUserInfo(newUserData, setUserInfo, setErrorMsg, setIsLoading);
+    setNewUserInfo({ name: '', about: '' });
   }
 
   if (errorMsg) {
@@ -101,20 +80,18 @@ function EditUserInfoForm({ popupActive, setPopupActive }) {
 
         <section className={s.presentUserInfo}>
           <h1 className={s.title}>Пользователь</h1>
+          <p>{userInfo?.name}</p>
           <img
             src={userInfo?.avatar}
             alt="present user avatar"
             className={s.presentUserAvatar}
           ></img>
-          <div>
-            <p>{userInfo?.email}</p>
-          </div>
+          <p>{userInfo?.email}</p>
         </section>
 
         <section className={s.editUserSection}>
           <div className={`${s.wrapper} ${s.divider}`}>
             <h2 className={`${s.title} ${s.subtitle}`}>Новый аватар</h2>
-
             <form onSubmit={handleAvatarFormSubmit} className={s.form}>
               {!!newUserAvatar.avatar && (
                 <img
@@ -139,38 +116,28 @@ function EditUserInfoForm({ popupActive, setPopupActive }) {
             </form>
           </div>
           <div className={s.wrapper}>
-            <h1 className={`${s.title} ${s.subtitle}`}>Вход в систему</h1>
-
-            <form onSubmit={console.log('oh')} className={s.form}>
-              <label htmlFor="register-email">E-mail: *</label>
+            <h1 className={`${s.title} ${s.subtitle}`}>Новое описание</h1>
+            <form onSubmit={handleBioFormSubmit} className={s.form}>
+              <label htmlFor="newName">Имя:</label>
               <input
-                id="register-email"
-                type="email"
-                value={loginData.email}
-                onChange={handleInputChange}
-                onFocus={handleInputFocus}
-                onBlur={handleInputBlur}
-                name="email"
-                placeholder="Введите логин"
-                required
+                id="newName"
+                type="text"
+                value={newUserInfo.name}
+                onChange={handleBioInputChange}
+                name="name"
+                placeholder={userInfo?.name}
               />
-              {tipActive && (
-                <p className={s.tip}>
-                  Вашим логином является e-mail, указанный при регистрации
-                </p>
-              )}
 
-              <label htmlFor="register-password">Пароль: *</label>
+              <label htmlFor="newBio">О себе:</label>
               <input
-                id="register-password"
-                type="password"
-                value={loginData.password}
-                onChange={handleInputChange}
-                name="password"
-                placeholder="Введите пароль"
-                required
+                id="newBio"
+                type="text"
+                value={newUserInfo.about}
+                onChange={handleBioInputChange}
+                name="about"
+                placeholder={userInfo?.about}
               />
-              <button type="submit">Войти</button>
+              <button type="submit">Изменить данные</button>
             </form>
           </div>
         </section>

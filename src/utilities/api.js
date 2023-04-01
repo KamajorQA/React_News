@@ -163,39 +163,23 @@ const getUserInfo = async (setState, setError, setLoader) => {
 // в передаваемом объекте userData допускаются только 2 поля: name и about
 // структура успешного ответа сервера совпадает с ответом на запрос данных текущего пользователя
 // следовательно можно использовать одно и то же состояние
-const changeUserInfo = async (userData, setState, setError) => {
+const changeUserInfo = async (userData, setState, setError, setLoader) => {
   try {
     const response = await fetch(`${baseUrl}/users/me`, {
       ...configurateHeaders(),
       method: 'PATCH',
       body: JSON.stringify(userData),
     });
-    const data = await response.json();
-    if (setState) {
-      setState(data);
-    }
-  } catch (error) {
-    if (setError) {
-      setError(`Ошибка на сервере: ${error.message}`);
-    }
-    console.error(error.message);
-  }
-};
-
-// изменение аватара текущего пользователя (только аватара)
-// в передаваемом объекте допускается только 1 свойство - avatar, значением которого дб ссылка
-// структура успешного ответа сервера совпадает с ответом на запрос данных текущего пользователя
-// следовательно можно использовать одно и то же состояние
-let changeUserAvatar = async (userAvatar, setState, setError, setLoader) => {
-  try {
-    const response = await fetch(`${baseUrl}/users/me/avatar`, {
-      ...configurateHeaders(),
-      method: 'PUT',
-      body: JSON.stringify(userAvatar),
-    });
-    const data = await response.json();
-    if (setState) {
-      setState(data);
+    if (response.ok) {
+      const data = await response.json();
+      if (setState) {
+        setState(data);
+      }
+    } else {
+      const errorMessage = await response.json();
+      throw new Error(
+        `${response.status} ${response.statusText} Причина: ${errorMessage?.message}`
+      );
     }
   } catch (error) {
     if (setError) {
@@ -209,7 +193,11 @@ let changeUserAvatar = async (userAvatar, setState, setError, setLoader) => {
   }
 };
 
-changeUserAvatar = async (userAvatar, setState, setError, setLoader) => {
+// изменение аватара текущего пользователя (только аватара)
+// в передаваемом объекте допускается только 1 свойство - avatar, значением которого дб ссылка
+// структура успешного ответа сервера совпадает с ответом на запрос данных текущего пользователя
+// следовательно можно использовать одно и то же состояние
+const changeUserAvatar = async (userAvatar, setState, setError, setLoader) => {
   try {
     const response = await fetch(`${baseUrl}/users/me/avatar`, {
       ...configurateHeaders(),
