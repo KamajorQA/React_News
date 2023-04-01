@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext.js';
 import { getUserInfo } from '../../utilities/api.js';
 import { ArticleList } from '../ArticleList/ArticleList.jsx';
+import { StoriesList } from '../StoriesList/StoriesList.jsx';
 import { InfoPanel } from '../InfoPanel/InfoPanel.jsx';
 import { Main } from '../Main/Main.jsx';
 import { NotFound404 } from '../NotFound404/NotFound404.jsx';
@@ -13,6 +14,7 @@ import { AddArticleForm } from '../AddArticleForm/AddArticleForm.jsx';
 import { Login } from '../Login/Login.jsx';
 import { Register } from '../Register/Register.jsx';
 import s from './app.module.css';
+import { EditUserInfoForm } from '../EditUserInfoForm/EditUserInfoForm.jsx';
 
 function App() {
   const [userInfo, setUserInfo] = useState();
@@ -79,7 +81,15 @@ function App() {
                   </Main>
                 }
               />
-              <Route path="stories" element={<></>} />
+              <Route
+                path="stories"
+                element={
+                  <Main>
+                    <InfoPanel />
+                    <StoriesList />
+                  </Main>
+                }
+              />
               <Route
                 path="login"
                 element={
@@ -93,6 +103,15 @@ function App() {
                 path="register"
                 element={
                   <Register
+                    popupActive={popupActive}
+                    setPopupActive={setPopupActive}
+                  />
+                }
+              />
+              <Route
+                path="edit-user"
+                element={
+                  <EditUserInfoForm
                     popupActive={popupActive}
                     setPopupActive={setPopupActive}
                   />

@@ -1,0 +1,22 @@
+.growWrap {
+  flex-grow: 1;
+  background-color: var(--bg-overlay-color);
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  transition: all 0.4s linear;
+}
+
+.gridWrapper {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: 1fr 0.8fr 1fr 0.3fr 1fr;
+  gap: 1rem;
+  padding: 2rem;
+}
+
+@media (max-width: 700px) {
+  .gridWrapper {
+    grid-template-columns: 1fr;
+    grid-auto-rows: 1fr;
+  }
+}

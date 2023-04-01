@@ -163,22 +163,33 @@ const getUserInfo = async (setState, setError, setLoader) => {
 // в передаваемом объекте userData допускаются только 2 поля: name и about
 // структура успешного ответа сервера совпадает с ответом на запрос данных текущего пользователя
 // следовательно можно использовать одно и то же состояние
-const changeUserInfo = async (userData, setState, setError) => {
+const changeUserInfo = async (userData, setState, setError, setLoader) => {
   try {
     const response = await fetch(`${baseUrl}/users/me`, {
       ...configurateHeaders(),
       method: 'PATCH',
       body: JSON.stringify(userData),
     });
-    const data = await response.json();
-    if (setState) {
-      setState(data);
+    if (response.ok) {
+      const data = await response.json();
+      if (setState) {
+        setState(data);
+      }
+    } else {
+      const errorMessage = await response.json();
+      throw new Error(
+        `${response.status} ${response.statusText} Причина: ${errorMessage?.message}`
+      );
     }
   } catch (error) {
     if (setError) {
       setError(`Ошибка на сервере: ${error.message}`);
     }
     console.error(error.message);
+  } finally {
+    if (setLoader) {
+      setLoader(false);
+    }
   }
 };
 
@@ -186,22 +197,33 @@ const changeUserInfo = async (userData, setState, setError) => {
 // в передаваемом объекте допускается только 1 свойство - avatar, значением которого дб ссылка
 // структура успешного ответа сервера совпадает с ответом на запрос данных текущего пользователя
 // следовательно можно использовать одно и то же состояние
-const changeUserAvatar = async (userAvatar, setState, setError) => {
+const changeUserAvatar = async (userAvatar, setState, setError, setLoader) => {
   try {
     const response = await fetch(`${baseUrl}/users/me/avatar`, {
       ...configurateHeaders(),
       method: 'PATCH',
       body: JSON.stringify(userAvatar),
     });
-    const data = await response.json();
-    if (setState) {
-      setState(data);
+    if (response.ok) {
+      const data = await response.json();
+      if (setState) {
+        setState(data);
+      }
+    } else {
+      const errorMessage = await response.json();
+      throw new Error(
+        `${response.status} ${response.statusText} Причина: ${errorMessage?.message}`
+      );
     }
   } catch (error) {
     if (setError) {
       setError(`Ошибка на сервере: ${error.message}`);
     }
     console.error(error.message);
+  } finally {
+    if (setLoader) {
+      setLoader(false);
+    }
   }
 };
 
