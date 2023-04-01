@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
 import s from './userInfo.module.css';
+import { Link } from 'react-router-dom';
 
 function UserInfo() {
   const { userInfo, isAuthenticated, setIsAuthenticated } =
@@ -11,7 +12,7 @@ function UserInfo() {
     setIsAuthenticated(false);
   }
   return (
-    !!userInfo && (
+    !!isAuthenticated && (
       <div className={s.userInfo}>
         <img
           src={userInfo?.avatar}
@@ -20,17 +21,13 @@ function UserInfo() {
         ></img>
         <div>
           <p>{userInfo?.name}</p>
-          {/* <p>{userInfo.email}</p> */}
         </div>
-        {isAuthenticated && (
+        <div className={s.dropdownContent}>
+          <Link to="/edit-user">Изменить данные</Link>
+          <Link to="/bookmarks">Избранное</Link>
           <p className={s.exitButton} onClick={handleExitButton}>
             Выйти
           </p>
-        )}
-        <div className={s.dropdownContent}>
-          <a href="/edit-user">Изменить данные</a>
-          <a href="#">Избранное</a>
-          <a href="#">Ссылка 3</a>
         </div>
       </div>
     )

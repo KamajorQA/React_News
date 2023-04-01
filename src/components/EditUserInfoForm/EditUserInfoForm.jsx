@@ -1,7 +1,7 @@
 import { faAnglesLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useContext, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 import { changeUserAvatar, changeUserInfo } from '../../utilities/api';
 import { Loader } from '../Loader/Loader';
@@ -10,6 +10,7 @@ import { Popup } from '../Popup/Popup';
 import s from './editUserInfoForm.module.css';
 
 function EditUserInfoForm({ popupActive, setPopupActive }) {
+  const [newUserAvatar, setNewUserAvatar] = useState({ avatar: '' });
   const [newUserInfo, setNewUserInfo] = useState({
     name: '',
     about: '',
@@ -18,7 +19,6 @@ function EditUserInfoForm({ popupActive, setPopupActive }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const { userInfo, setUserInfo } = useContext(UserContext);
-  const [newUserAvatar, setNewUserAvatar] = useState({ avatar: '' });
 
   function handleAvatarInputChange(event) {
     setNewUserAvatar({ avatar: event.target.value });
