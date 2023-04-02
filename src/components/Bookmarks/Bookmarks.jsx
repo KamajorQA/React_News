@@ -1,13 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { UserContext } from '../../context/UserContext';
 import { getArticleList } from '../../utilities/api';
 import { Article } from '../Article/Article';
 import { Loader } from '../Loader/Loader';
-import s from './storiesList.module.css';
+import s from './bookmarks.module.css';
 
-function StoriesList() {
+function Bookmarks() {
   const [articles, setArticles] = useState([]);
   const [errorMsg, setErrorMsg] = useState('');
   const [isLoading, setIsLoading] = useState('true');
+  const { userInfo } = useContext(UserContext);
 
   useEffect(() => {
     getArticleList(setArticles, setErrorMsg, setIsLoading);
@@ -28,7 +30,7 @@ function StoriesList() {
               .filter((elem) => {
                 return (
                   elem.author._id === '63d65ba559b98b038f77ae2e' &&
-                  elem.tags.includes('истории')
+                  elem.likes.includes(userInfo._id)
                 );
               })
               .map((elem) => (
@@ -41,4 +43,4 @@ function StoriesList() {
   );
 }
 
-export { StoriesList };
+export { Bookmarks };

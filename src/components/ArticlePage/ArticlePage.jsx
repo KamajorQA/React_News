@@ -52,7 +52,6 @@ function ArticlePage({ popupActive, setPopupActive }) {
 
   const isLiked = article?.likes?.includes(userInfo?._id);
   const likeClassName = `pin-${isLiked}`;
-  console.log('liked', isLiked);
 
   function handleLikeClick(e) {
     e.preventDefault();
