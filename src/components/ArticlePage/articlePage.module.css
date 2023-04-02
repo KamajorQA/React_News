@@ -67,6 +67,10 @@
   font-size: xx-large;
 }
 
+.articleSubtitle {
+  text-align: center;
+}
+
 .imageContainer {
   text-align: center;
 }

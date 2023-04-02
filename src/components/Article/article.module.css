@@ -25,6 +25,15 @@
   object-fit: cover;
 }
 
+.title {
+  font-size: large;
+  font-size: larger;
+}
+
+.subtitle {
+  margin-top: 0.5rem;
+}
+
 .cardBottom {
   display: flex;
   flex-direction: column;
@@ -113,7 +122,6 @@
   text-transform: uppercase;
   font-size: 0.5rem;
   opacity: 0.5;
-  /* flex: 1; */
 }
 
 .tags > span {

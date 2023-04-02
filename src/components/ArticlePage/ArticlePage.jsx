@@ -50,7 +50,11 @@ function ArticlePage({ popupActive, setPopupActive }) {
   let publicationDate = new Date(article?.created_at);
   publicationDate = `${publicationDate.getHours()}:${publicationDate.getMinutes()}, ${publicationDate.toLocaleDateString()}`;
 
-  let newsSource = article?.comments?.[2]?.text;
+  let adminComments = article?.comments?.filter(
+    (elem) => elem.author === '63d65ba559b98b038f77ae2e'
+  );
+  let newsSource = adminComments?.[0]?.text;
+  let subtitle = adminComments?.[1]?.text;
 
   const isLiked = article?.likes?.includes(userInfo?._id);
   const likeClassName = `pin-${isLiked}`;
@@ -127,6 +131,11 @@ function ArticlePage({ popupActive, setPopupActive }) {
       </section>
       <section className={s.content}>
         <h1 className={s.articleTitle}>{article?.title}</h1>
+        {subtitle && (
+          <h3 className={s.articleSubtitle}>
+            <em>{subtitle}</em>
+          </h3>
+        )}
         <div className={s.imageContainer}>
           <p className={s.sourceInfo}>
             <span>{publicationDate}</span>
