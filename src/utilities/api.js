@@ -331,45 +331,73 @@ const findArticles = async (queryString, setState, setError, setLoader) => {
   }
 };
 
-// Комментарии. Использоваться будут для подзаголовков/дополнительных текстовых полей.
+// Комментарии. Используются для подзаголовков/дополнительных текстовых полей.
 
 // Создание нового "комментария"
 // обязательна передача id поста, который комментируется. В body должно передаваться свойство text
-const addNewComment = async (postID, commentText, setState, setError) => {
+const addNewComment = async (
+  postID,
+  commentText,
+  setState,
+  setError,
+  setLoader
+) => {
   try {
     const response = await fetch(`${baseUrl}/posts/comments/${postID}`, {
       ...configurateHeaders(),
       method: 'POST',
       body: JSON.stringify(commentText),
     });
-    const data = await response.json();
-    if (setState) {
-      setState(data);
+    if (response.ok) {
+      const data = await response.json();
+      if (setState) {
+        setState(data);
+      }
+    } else {
+      const errorMessage = await response.json();
+      throw new Error(
+        `${response.status} ${response.statusText} Причина: ${errorMessage?.message}`
+      );
     }
   } catch (error) {
     if (setError) {
       setError(`Ошибка на сервере: ${error.message}`);
     }
     console.error(error.message);
+  } finally {
+    if (setLoader) {
+      setLoader(false);
+    }
   }
 };
 
 // Получение всех комментариев к конкретному посту
-const getCommentsByPost = async (postID, setState, setError) => {
+const getCommentsByPost = async (postID, setState, setError, setLoader) => {
   try {
     const response = await fetch(
       `${baseUrl}/posts/comments/${postID}`,
       configurateHeaders()
     );
-    const data = await response.json();
-    if (setState) {
-      setState(data);
+    if (response.ok) {
+      const data = await response.json();
+      if (setState) {
+        setState(data);
+      }
+    } else {
+      const errorMessage = await response.json();
+      throw new Error(
+        `${response.status} ${response.statusText} Причина: ${errorMessage?.message}`
+      );
     }
   } catch (error) {
     if (setError) {
       setError(`Ошибка на сервере: ${error.message}`);
     }
     console.error(error.message);
+  } finally {
+    if (setLoader) {
+      setLoader(false);
+    }
   }
 };
 

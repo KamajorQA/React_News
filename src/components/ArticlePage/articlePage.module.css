@@ -143,6 +143,12 @@
   letter-spacing: 0.5px;
 }
 
+.dropUp {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+}
+
 @media (max-width: 1024px) {
   .articleTitle {
     font-weight: 700;

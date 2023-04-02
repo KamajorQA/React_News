@@ -12,6 +12,7 @@ import { MainLink } from '../MainLink/MainLink.jsx';
 import {
   faAnglesLeft,
   faBookmark,
+  faCommentDots,
   faPenToSquare,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
@@ -19,11 +20,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import s from './articlePage.module.css';
 import { Popup } from '../Popup/Popup';
 import { EditArticleForm } from '../EditArticleForm/EditArticleForm';
+import { CommentForm } from '../CommentForm/CommentForm';
 
 function ArticlePage({ popupActive, setPopupActive }) {
   const [article, setArticle] = useState({});
   const [errorMsg, setErrorMsg] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [commentDrop, setCommentDrop] = useState(false);
   const [deletedArticle, setDeletedArticle] = useState(null);
   const [deleteErrorMsg, setDeleteErrorMsg] = useState(null);
 
@@ -47,8 +50,7 @@ function ArticlePage({ popupActive, setPopupActive }) {
   let publicationDate = new Date(article?.created_at);
   publicationDate = `${publicationDate.getHours()}:${publicationDate.getMinutes()}, ${publicationDate.toLocaleDateString()}`;
 
-  let newsSource = article?.comments?.[1]?.text;
-  // console.log('массив комментариев на ArticlePage', newsSource);
+  let newsSource = article?.comments?.[2]?.text;
 
   const isLiked = article?.likes?.includes(userInfo?._id);
   const likeClassName = `pin-${isLiked}`;
@@ -60,6 +62,20 @@ function ArticlePage({ popupActive, setPopupActive }) {
     } else {
       addLike(article._id, setArticle);
     }
+  }
+
+  function handleCommentDrop(e) {
+    e.preventDefault();
+    const passCheck = commentDrop
+      ? false
+      : prompt('Введите пароль для редактирования дополнительных полей');
+    if (
+      commentDrop === false &&
+      userInfo.email === 'KamajorQA@gmail.com' &&
+      passCheck === userInfo?._id.slice(0, 3)
+    ) {
+      setCommentDrop(true);
+    } else setCommentDrop(false);
   }
 
   function handleEditClick(e) {
@@ -125,24 +141,38 @@ function ArticlePage({ popupActive, setPopupActive }) {
         <span className={s.authorName}>Автор: {article?.author?.name}</span>
         <div className={s.edits}>
           {isAdmin && (
-            <MainLink href={'#'}>
-              <FontAwesomeIcon
-                icon={faPenToSquare}
-                title="Редактировать статью"
-                className={s.edit}
-                onClick={handleEditClick}
-              />
-            </MainLink>
-          )}
-          {isAdmin && (
-            <MainLink href={'#'}>
-              <FontAwesomeIcon
-                icon={faTrash}
-                title="Удалить статью"
-                className={s.trash}
-                onClick={handleDeleteClick}
-              />
-            </MainLink>
+            <>
+              <div className={s.dropUp}>
+                {commentDrop && (
+                  <CommentForm postID={newsID} setArticle={setArticle} />
+                )}
+                <MainLink href={'#'}>
+                  <FontAwesomeIcon
+                    icon={faCommentDots}
+                    title="Раскрыть дополнительные комментарии"
+                    className={s.edit}
+                    onClick={handleCommentDrop}
+                  />
+                </MainLink>
+              </div>
+              <MainLink href={'#'}>
+                <FontAwesomeIcon
+                  icon={faPenToSquare}
+                  title="Редактировать статью"
+                  className={s.edit}
+                  onClick={handleEditClick}
+                />
+              </MainLink>
+
+              <MainLink href={'#'}>
+                <FontAwesomeIcon
+                  icon={faTrash}
+                  title="Удалить статью"
+                  className={s.trash}
+                  onClick={handleDeleteClick}
+                />
+              </MainLink>
+            </>
           )}
         </div>
       </section>
