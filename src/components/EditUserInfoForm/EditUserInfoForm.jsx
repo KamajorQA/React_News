@@ -26,7 +26,6 @@ function EditUserInfoForm({ popupActive, setPopupActive }) {
 
   async function handleAvatarFormSubmit(event) {
     event.preventDefault();
-    console.log(event.target.value);
     setIsLoading(true);
     await changeUserAvatar(
       newUserAvatar,

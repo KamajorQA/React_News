@@ -39,7 +39,6 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 1rem;
-  /* gap: 0.5rem; */
 }
 
 .card:nth-child(12n + 1),
