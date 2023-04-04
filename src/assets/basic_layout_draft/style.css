@@ -61,36 +61,15 @@ body {
   text-align: left;
 }
 
-/* @media (max-width: 1100px) {
-    .wrapper {
-        padding: 1.75rem;
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media (max-width: 700px) {
-    .wrapper {
-        padding: 1.5rem;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 30px;
-    }
-}
-
-@media (max-width: 450px) {
-    .wrapper {
-        grid-template-columns: 1fr;
-    }
-} */
-
 .header {
   height: 200px;
-  // background-color: #2b1811;
+  background-color: #2b1811;
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  // position: sticky;
-  // top: 0;
+  position: sticky;
+  top: 0;
 
   width: 100%;
   max-width: 1335px;

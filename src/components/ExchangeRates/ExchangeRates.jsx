@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getExchangeRates } from '../../utilities/api';
+import { getExchangeRates } from '../../utilities/apiExchangeRates';
 import { Loader } from '../Loader/Loader.jsx';
 import s from './exchangeRates.module.css';
 
@@ -7,17 +7,6 @@ function ExchangeRates() {
   const [exchangeRates, setExchangeRates] = useState();
   const [errorMsg, setErrorMsg] = useState('');
   const [isLoading, setIsLoading] = useState('true');
-
-  // вариант с объявлением и вызовом функции в самом компоненте
-  //   useEffect(() => {
-  //     async function getExchangeRates() {
-  //       const currencyURL = 'https://www.cbr-xml-daily.ru/daily_json.js';
-  //       const response = await fetch(currencyURL);
-  //       const data = await response.json();
-  //       setExchangeRates(data);
-  //     }
-  //     getExchangeRates(); // вместо этого вызова можно сразу саму функцию обернуть в IIFE
-  //   }, []);
 
   useEffect(() => {
     getExchangeRates(setExchangeRates, setErrorMsg, setIsLoading);

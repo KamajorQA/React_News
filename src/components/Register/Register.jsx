@@ -2,7 +2,7 @@ import { faAnglesRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { registerUser } from '../../utilities/api';
+import { registerUser } from '../../utilities/apiAuthUser';
 import { AnimatedBackground } from '../AnimatedBackground/AnimatedBackground';
 import { Loader } from '../Loader/Loader';
 import { Popup } from '../Popup/Popup';

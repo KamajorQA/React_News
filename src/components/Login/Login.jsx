@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
-import { authorizeUser } from '../../utilities/api';
+import { authorizeUser } from '../../utilities/apiAuthUser';
 import { AnimatedBackground } from '../AnimatedBackground/AnimatedBackground';
 import { Loader } from '../Loader/Loader';
 import { Main } from '../Main/Main';

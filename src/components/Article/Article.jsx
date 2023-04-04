@@ -1,7 +1,11 @@
 import { Link } from 'react-router-dom';
 import s from './article.module.css';
 
-function Article({ image, tags, title, author, created_at, text, _id }) {
+function Article({ image, tags, title, author, created_at, comments, _id }) {
+  let adminComments = comments?.filter(
+    (elem) => elem.author === '63d65ba559b98b038f77ae2e'
+  );
+  let subtitle = adminComments?.[1]?.text;
   let publicationDate = new Date(created_at);
   publicationDate = `${publicationDate.getHours()}:${publicationDate.getMinutes()}, ${publicationDate.toLocaleDateString()}`;
 
@@ -17,7 +21,12 @@ function Article({ image, tags, title, author, created_at, text, _id }) {
               <span key={index}>{tagelem}</span>
             ))}
           </p>
-          <p className={s.title}>{title}</p>
+          <div className={s.titleBox}>
+            <p className={s.title}>{title}</p>
+            <p className={s.subtitle}>
+              <em>{subtitle}</em>
+            </p>
+          </div>
           <div className={s.publishInfo}>
             <p>{author.name}</p>
             <p>{publicationDate}</p>

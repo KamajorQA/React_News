@@ -1,0 +1,63 @@
+.container {
+  flex-grow: 1;
+  background-color: var(--bg-overlay-color);
+  border-radius: 10px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.controls {
+  width: 100%;
+  display: flex;
+}
+
+.backwardsLink {
+  width: max-content;
+  text-decoration: none;
+  color: var(--primary-color);
+  padding: 0.5rem 1rem;
+  background-color: var(--bg-secondary-color);
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 0;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: all 0.5s ease;
+}
+
+.controls svg {
+  vertical-align: middle;
+  margin-right: 0.2rem;
+}
+
+.controls > a:hover {
+  opacity: 1;
+}
+
+.musicContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  margin-top: 0.5rem;
+  flex-grow: 1;
+  width: 100%;
+}
+
+.musicIFrame {
+  border: none;
+  width: 90%;
+  height: 450px;
+  margin: 0.5rem 0rem;
+}
+
+.title {
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+}

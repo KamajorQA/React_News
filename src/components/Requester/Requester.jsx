@@ -8,7 +8,7 @@ function Requester() {
     <div className={s.requester}>
       <div className={s.search}>
         <Switcher />
-        {/* <span>search</span> + <span>authentication</span> */}
+        {/* <span>search</span> */}
       </div>
 
       <UserInfo />

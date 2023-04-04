@@ -25,12 +25,20 @@
   object-fit: cover;
 }
 
+.title {
+  font-size: large;
+  font-size: larger;
+}
+
+.subtitle {
+  margin-top: 0.5rem;
+}
+
 .cardBottom {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 1rem;
-  /* gap: 0.5rem; */
 }
 
 .card:nth-child(12n + 1),
@@ -113,7 +121,6 @@
   text-transform: uppercase;
   font-size: 0.5rem;
   opacity: 0.5;
-  /* flex: 1; */
 }
 
 .tags > span {

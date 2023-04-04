@@ -34,18 +34,14 @@
   justify-content: center;
   align-items: center;
   opacity: 0;
-  /* transform: translate(0px, -100%); */
   transform: perspective(600px) translate(0px, -100%) rotateX(45deg);
-  /* transform: scale(0.5); */
   transition: all 0.4s ease;
   position: relative;
 }
 
 .popupContent.popupActive {
   opacity: 1;
-  /* transform: translate(0px, 0%); */
   transform: perspective(600px) translate(0px, 0%) rotateX(0deg);
-  /* transform: scale(1); */
 }
 
 .close {

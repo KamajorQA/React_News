@@ -67,6 +67,10 @@
   font-size: xx-large;
 }
 
+.articleSubtitle {
+  text-align: center;
+}
+
 .imageContainer {
   text-align: center;
 }
@@ -141,6 +145,12 @@
   font-weight: 500;
   font-size: 1.1rem;
   letter-spacing: 0.5px;
+}
+
+.dropUp {
+  position: relative;
+  display: inline-block;
+  text-align: center;
 }
 
 @media (max-width: 1024px) {

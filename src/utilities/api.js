@@ -1,92 +1,3 @@
-// fetch-запрос для получения курса валют от ЦБ РФ на текущую дату
-// при вызове в нужном компоненте передается функция установки используемого состояния
-async function getExchangeRates(setState, setError, setLoader) {
-  try {
-    const currencyURL = 'https://www.cbr-xml-daily.ru/daily_json.js';
-    const response = await fetch(currencyURL);
-    const data = await response.json();
-    setState(data);
-  } catch (error) {
-    setError(`Ошибка на сервере: ${error.message}`);
-    console.error(error.message);
-  } finally {
-    if (setLoader) {
-      setLoader(false);
-    }
-  }
-}
-
-// Api для регистрация нового пользователя и авторизации на основном сервере
-const authUrl = 'https://api.react-learning.ru';
-const authHeaders = { 'Content-Type': 'application/json' };
-
-// регистрация пользователя
-const registerUser = async (
-  registrationData,
-  setState,
-  setError,
-  setLoader
-) => {
-  try {
-    const response = await fetch(`${authUrl}/signup`, {
-      headers: authHeaders,
-      method: 'POST',
-      body: JSON.stringify({ ...registrationData, group: 'group-9' }),
-    });
-    if (response.ok) {
-      const data = await response.json();
-      if (setState) {
-        setState(data);
-      }
-    } else {
-      const errorMessage = await response.json();
-      throw new Error(
-        `${response.status} ${response.statusText} Причина: ${errorMessage?.message}`
-      );
-    }
-  } catch (error) {
-    if (setError) {
-      setError(`Ошибка на сервере: ${error.message}`);
-    }
-    console.error(error.message);
-  } finally {
-    if (setLoader) {
-      setLoader(false);
-    }
-  }
-};
-
-// авторизация пользователя
-const authorizeUser = async (loginData, setState, setError, setLoader) => {
-  try {
-    const response = await fetch(`${authUrl}/signin`, {
-      headers: authHeaders,
-      method: 'POST',
-      body: JSON.stringify(loginData),
-    });
-    if (response.ok) {
-      const data = await response.json();
-      if (setState) {
-        setState(data);
-      }
-    } else {
-      const errorMessage = await response.json();
-      throw new Error(
-        `${response.status} ${response.statusText} Причина: ${errorMessage?.message}`
-      );
-    }
-  } catch (error) {
-    if (setError) {
-      setError(`Ошибка на сервере: ${error.message}`);
-    }
-    console.error(error.message);
-  } finally {
-    if (setLoader) {
-      setLoader(false);
-    }
-  }
-};
-
 // API для работы с основным сервером
 
 const baseUrl = 'https://api.react-learning.ru/v2/group-9';
@@ -331,45 +242,73 @@ const findArticles = async (queryString, setState, setError, setLoader) => {
   }
 };
 
-// Комментарии. Использоваться будут для подзаголовков/дополнительных текстовых полей.
+// Комментарии. Используются для подзаголовков/дополнительных текстовых полей.
 
 // Создание нового "комментария"
 // обязательна передача id поста, который комментируется. В body должно передаваться свойство text
-const addNewComment = async (postID, commentText, setState, setError) => {
+const addNewComment = async (
+  postID,
+  commentText,
+  setState,
+  setError,
+  setLoader
+) => {
   try {
     const response = await fetch(`${baseUrl}/posts/comments/${postID}`, {
       ...configurateHeaders(),
       method: 'POST',
       body: JSON.stringify(commentText),
     });
-    const data = await response.json();
-    if (setState) {
-      setState(data);
+    if (response.ok) {
+      const data = await response.json();
+      if (setState) {
+        setState(data);
+      }
+    } else {
+      const errorMessage = await response.json();
+      throw new Error(
+        `${response.status} ${response.statusText} Причина: ${errorMessage?.message}`
+      );
     }
   } catch (error) {
     if (setError) {
       setError(`Ошибка на сервере: ${error.message}`);
     }
     console.error(error.message);
+  } finally {
+    if (setLoader) {
+      setLoader(false);
+    }
   }
 };
 
 // Получение всех комментариев к конкретному посту
-const getCommentsByPost = async (postID, setState, setError) => {
+const getCommentsByPost = async (postID, setState, setError, setLoader) => {
   try {
     const response = await fetch(
       `${baseUrl}/posts/comments/${postID}`,
       configurateHeaders()
     );
-    const data = await response.json();
-    if (setState) {
-      setState(data);
+    if (response.ok) {
+      const data = await response.json();
+      if (setState) {
+        setState(data);
+      }
+    } else {
+      const errorMessage = await response.json();
+      throw new Error(
+        `${response.status} ${response.statusText} Причина: ${errorMessage?.message}`
+      );
     }
   } catch (error) {
     if (setError) {
       setError(`Ошибка на сервере: ${error.message}`);
     }
     console.error(error.message);
+  } finally {
+    if (setLoader) {
+      setLoader(false);
+    }
   }
 };
 
@@ -436,9 +375,6 @@ const deleteLike = async (postID, setState, setError) => {
 };
 
 export {
-  getExchangeRates,
-  registerUser,
-  authorizeUser,
   getArticleList,
   getArticleById,
   getUserInfo,
@@ -454,76 +390,3 @@ export {
   addLike,
   deleteLike,
 };
-
-/*------------------- Проверка АПИ -------------------*/
-let setCheckState = (data) => {
-  console.log('Server answer', data);
-};
-
-const fullUserData = {
-  about: 'Frontend developer trainee',
-  avatar: 'https://react-learning.ru/image-compressed/default-image.jpg',
-  email: 'KamajorQA@gmail.com',
-  group: 'group-9',
-  name: 'Kamajor',
-};
-
-const patchedUserData = {
-  about: 'Frontend developer trainee',
-  name: 'Kamajor',
-};
-
-const defaultUserAvatar = {
-  avatar: 'https://react-learning.ru/image-compressed/default-image.jpg',
-};
-
-const patchedUserAvatar = {
-  avatar:
-    'https://i.pinimg.com/originals/ff/37/ea/ff37ea978387dae70e20ca110eb3dfb8.jpg',
-};
-
-const newPost = {
-  title: 'Старейшие деревья в США пережили пожар',
-  text: 'Когда на прошлой неделе мощный лесной пожар охватил старейший государственный парк Калифорнии, это вызвало очень много опасений. И не только из-за угрозы людям.',
-  image:
-    'https://positivnews.ru/wp-content/uploads/2020/08/1-lovarv8a77pdmsoii09par.jpg',
-  tags: ['новости', 'fun'],
-};
-
-const updatedPost = {
-  //  title: "Улучшение экологии в Китае",
-  text: 'Сокращение загрязнения воздуха в Китае спасло уже сотни тысяч жизней с 1990 года. В мегаполисах Китая наблюдается значительное снижение большинства показателей загрязнения воздуха, а также связанных с этим случаев смерти. Согласно данным Фонда Билла и Мелинды Гейтс, опубликованным в журнале «Ланцет», во всех 33 провинциях, автономных районах и муниципалитетах Поднебесной наблюдается снижение в воздухе содержания твердых частиц, связанных с сжиганием топлива. Судя по цифрам, С 1990 года падение содержания твёрдых частиц в воздухе составило около 9%.',
-  image:
-    'https://positivnews.ru/wp-content/uploads/2020/09/1vadshoa8vdshrlva6vyp.jpg',
-  tags: ['новости'],
-};
-
-const querySearch = 'ов';
-
-const testComment = {
-  text: 'Вдумчивый Комментарий',
-};
-
-// changeUserAvatar(defaultUserAvatar, setCheckState);
-
-// changeUserAvatar(patchedUserAvatar, setCheckState);
-
-// getArticleList(setCheckState);
-
-// addNewArticle(newPost, setCheckState);
-
-// updateArticle('id', updatedPost, setCheckState);
-
-// deleteArticle('id', setCheckState);
-
-// findArticles(querySearch, setCheckState);
-
-// addNewComment('63d681de59b98b038f77ae41', testComment, setCheckState);
-
-// getCommentsByPost('postID', setCheckState);
-
-// deleteComment('63d681de59b98b038f77ae41', 'commentID', setCheckState);
-
-// addLike('63d681de59b98b038f77ae41', setCheckState);
-
-// deleteLike('63d681de59b98b038f77ae41', setCheckState);
