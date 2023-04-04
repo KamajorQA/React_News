@@ -16,6 +16,7 @@ import { Register } from '../Register/Register.jsx';
 import { EditUserInfoForm } from '../EditUserInfoForm/EditUserInfoForm.jsx';
 import { Bookmarks } from '../Bookmarks/Bookmarks.jsx';
 import s from './app.module.css';
+import { Fun } from '../Fun/Fun.jsx';
 
 function App() {
   const [userInfo, setUserInfo] = useState();
@@ -127,6 +128,7 @@ function App() {
                   </Main>
                 }
               />
+              <Route path="fun" element={<Fun />} />
               <Route path="*" element={<NotFound404 />} />
             </Route>
           </Routes>
