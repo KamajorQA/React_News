@@ -15,8 +15,8 @@ import { Login } from '../Login/Login.jsx';
 import { Register } from '../Register/Register.jsx';
 import { EditUserInfoForm } from '../EditUserInfoForm/EditUserInfoForm.jsx';
 import { Bookmarks } from '../Bookmarks/Bookmarks.jsx';
-import s from './app.module.css';
 import { Fun } from '../Fun/Fun.jsx';
+import s from './app.module.css';
 
 function App() {
   const [userInfo, setUserInfo] = useState();

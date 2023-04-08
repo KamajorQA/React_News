@@ -16,7 +16,6 @@ function ArticleList() {
   if (errorMsg) {
     return <p>{errorMsg}</p>;
   }
-
   return (
     <>
       {isLoading ? (

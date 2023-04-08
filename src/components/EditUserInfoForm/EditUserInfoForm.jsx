@@ -45,7 +45,7 @@ function EditUserInfoForm({ popupActive, setPopupActive }) {
 
   async function handleBioFormSubmit(event) {
     event.preventDefault();
-    let newUserData = newUserInfo;
+    let newUserData = { ...newUserInfo };
     if (newUserInfo.name.length <= 0) {
       newUserData.name = userInfo.name;
     }

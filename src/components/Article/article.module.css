@@ -72,6 +72,10 @@
   align-items: center;
 }
 
+.card:nth-child(12n + 9) .subtitle {
+  text-align: center;
+}
+
 .card:nth-child(12n + 4) a::after {
   background-image: var(--dark-gradient-card-mask);
   content: '';
@@ -155,6 +159,10 @@
     color: inherit;
     justify-content: initial;
     align-items: initial;
+  }
+
+  .card:nth-child(12n + 9) .subtitle {
+    text-align: initial;
   }
 
   .card:nth-child(12n + 9) .cardTop,
