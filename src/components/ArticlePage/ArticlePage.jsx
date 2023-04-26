@@ -51,7 +51,7 @@ function ArticlePage({ popupActive, setPopupActive }) {
   publicationDate = `${publicationDate.getHours()}:${publicationDate.getMinutes()}, ${publicationDate.toLocaleDateString()}`;
 
   let adminComments = article?.comments?.filter(
-    (elem) => elem.author === '63d65ba559b98b038f77ae2e'
+    (elem) => elem.author.email === 'KamajorQA@gmail.com'
   );
   let newsSource = adminComments?.[0]?.text;
   let subtitle = adminComments?.[1]?.text;

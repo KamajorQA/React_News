@@ -3,7 +3,7 @@ import s from './article.module.css';
 
 function Article({ image, tags, title, author, created_at, comments, _id }) {
   let adminComments = comments?.filter(
-    (elem) => elem.author === '63d65ba559b98b038f77ae2e'
+    (elem) => elem.author.email === 'KamajorQA@gmail.com'
   );
   let subtitle = adminComments?.[1]?.text;
   let publicationDate = new Date(created_at);
@@ -13,7 +13,7 @@ function Article({ image, tags, title, author, created_at, comments, _id }) {
     <article className={s.card}>
       <Link to={`/news/${_id}`}>
         <div className={s.cardTop}>
-          <img src={image} alt={'News image'} />
+          <img src={image} alt={'News img'} />
         </div>
         <div className={s.cardBottom}>
           <p className={s.tags}>
